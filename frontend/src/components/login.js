@@ -10,13 +10,21 @@ import axios from 'axios';
        validationSchema={Yup.object({
            email: Yup.string().email('Invalid email address').required('Required'),
            password: Yup.string()
-                    .min(4, 'Password Must be four characters long!')
+                    .min(1, 'Password Must be four characters long!')
                     .max(20, 'Too Long!').required('Required'),
            type: Yup.string().required('Required')
        })}
            
-           onSubmit={(values) => {
-          //  axios.post('')
+       onSubmit={(values) => {
+         const user = {
+           email: values.email,
+           password: values.password,
+           type: values.type
+             }
+             axios.post('http://localhost:8000/',user)
+               .then((data) => {
+                 console.log(data);
+             })
        }}
        >
            

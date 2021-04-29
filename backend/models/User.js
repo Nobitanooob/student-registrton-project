@@ -18,9 +18,6 @@ const userschema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    semester: {
-        type: Number,
-    },
     type: {
         type: String,
         required: true,
