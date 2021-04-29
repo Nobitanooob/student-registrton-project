@@ -13,10 +13,12 @@ function App() {
 
 
   const handleIsLogin = (e) => {
-    setIsLoggedIn(!isLoggedIn);
+    setIsLoggedIn(e);
+    console.log("is login",isLoggedIn);
   };
   const handleIsStudent = (e) => {
-    setIsStudent(!isStudent);
+    setIsStudent(e);
+    console.log("isStudent is",isStudent);
   };
   const handleUser =  (id) => {
       setUserId(id);
@@ -34,6 +36,7 @@ function App() {
       />  
     );
   } else {
+    return <div>{userId}</div>
     // return <PageRoutes isStudent={isStudent} userId={userId} />;
   } 
 
