@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import PageRoutes from "./PageRoutes";
+import PageRoutes from "./PageRoutes";
 import Login from "./components/login";
 
 function App() {
@@ -36,8 +36,8 @@ function App() {
       />  
     );
   } else {
-    return <div>{userId}</div>
-    // return <PageRoutes isStudent={isStudent} userId={userId} />;
+    // return <div>{userId}</div>
+    return <PageRoutes isStudent={isStudent} userId={userId} />;
   } 
 
 }
