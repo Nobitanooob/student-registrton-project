@@ -36,7 +36,6 @@ function App() {
       />  
     );
   } else {
-    // return <div>{userId}</div>
     return <PageRoutes isStudent={isStudent} userId={userId} />;
   } 
 
