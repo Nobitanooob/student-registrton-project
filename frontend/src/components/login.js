@@ -24,6 +24,10 @@ import axios from 'axios';
   const marginBottom={
       marginBottom:20
   };
+  const checkBoxStyle={
+    margin:20,
+    fontSize:'1.5rem'
+  }
    
    return (
     <Grid>
@@ -86,7 +90,7 @@ import axios from 'axios';
                   name="type">
                   {({ field }) => (
                       <>
-                      <div className="radio-item">
+                      <div className="radio-item" style={checkBoxStyle}>
                           <input
                           {...field}
                           id="student"
@@ -98,7 +102,7 @@ import axios from 'axios';
                           <label htmlFor="student">Student</label>
                       </div>
 
-                      <div className="radio-item">
+                      <div className="radio-item" style={checkBoxStyle}>
                           <input
                           {...field}
                           id="teacher"
