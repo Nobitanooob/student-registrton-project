@@ -102,7 +102,7 @@ import axios from 'axios';
                           <input
                           {...field}
                           id="teacher"
-                          value="teacher"
+                          value="teache"
                           name="type"
                           type="radio"
                           />
