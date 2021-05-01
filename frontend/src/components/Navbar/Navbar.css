@@ -29,7 +29,7 @@
     border: 0px;
 }
 .btn:active{
-    background-color: red;
+    background-color: transparent;
 }
 .menu-bars{
     margin-left: 2rem;
