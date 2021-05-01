@@ -3,7 +3,7 @@ import React from 'react';
   
 const About = () => {
   return (
-    <div
+    <div className="updateProfile"
       style={{
         display: 'flex',
         justifyContent: 'Right',

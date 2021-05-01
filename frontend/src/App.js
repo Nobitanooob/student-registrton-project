@@ -12,7 +12,7 @@ function App() {
     {
       setUserId(localStorage.getItem('userId'));
       setIsLoggedIn(true);
-      setIsStudent('userType');
+      (localStorage.getItem('userType')==='student')?setIsStudent(true):setIsStudent(false);
     }
     console.log('use effect called!!');
     console.log('userId', userId);
@@ -43,7 +43,10 @@ function App() {
       />  
     );
   } else {
-    return <PageRoutes isStudent={isStudent} userId={userId} />;
+    return (<PageRoutes isStudent={isStudent} userId={userId} />
+      
+      
+      );
   } 
 
 }
