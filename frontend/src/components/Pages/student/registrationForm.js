@@ -1,4 +1,3 @@
-
 import React from 'react';
   
 const About = () => {
@@ -11,7 +10,7 @@ const About = () => {
         height: '100vh'
       }}
     >
-      <h1>registration form</h1>
+      <h1>profile</h1>
     </div>
   );
 };

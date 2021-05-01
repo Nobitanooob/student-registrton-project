@@ -8,7 +8,14 @@ function App() {
   const [userId, setUserId] = useState("");
   useEffect(() => {
    
-   // console.log("this is user id in app ",userId)
+    if (localStorage.getItem('userId'))
+    {
+      setUserId(localStorage.getItem('userId'));
+      setIsLoggedIn(true);
+      setIsStudent('userType');
+    }
+    console.log('use effect called!!');
+    console.log('userId', userId);
   }, [userId]);
 
 

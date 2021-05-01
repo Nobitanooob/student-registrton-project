@@ -41,7 +41,7 @@ import axios from 'axios';
               validationSchema={Yup.object({
                   email: Yup.string().email('Invalid email address').required('Required'),
                   password: Yup.string()
-                  .min(1, 'Password Must be four characters long!')
+                  .min(1, 'Password Must be four characters long!')  //to increase limit later
                   .max(20, 'Too Long!').required('Required'),
                   type: Yup.string().required('Required')
               })}
@@ -65,7 +65,8 @@ import axios from 'axios';
                   })
                   .then((respond) => {
                       if (respond.data.valid) {
-                      localStorage.setItem("userId", respond.data.id)
+                      localStorage.setItem("userId", respond.data.id);
+                    localStorage.setItem("userType", user.type);
                       props.handleUser(respond.data.id);
                       props.handleIsStudent((user.type === 'student') ? true : false);
                       props.handleIsLogin(respond.data.valid);

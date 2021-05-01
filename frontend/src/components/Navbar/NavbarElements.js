@@ -66,7 +66,7 @@ export const NavBtn = styled.nav`
   }
 `;
   
-export const NavBtnLink = styled(Link)`
+export const NavBtnLink = styled.button`
   border-radius: 4px;
   background: #808080;
   padding: 10px 22px;
