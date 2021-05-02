@@ -1,13 +1,12 @@
 const express = require('express');
 const passport = require('passport');
+const User = require('../models/User');
 const router = express.Router();
 
 router.use('/create-student', require('./createStudents'));
-
+router.use('/student', require('./student'));
 router.route('/').get((req, res) => {
-    return res.json({
-        message: "welcome to backend Student Registration"
-    });
+    return res.render('reg.ejs');
 });
 
 //login
@@ -36,5 +35,29 @@ router.post('/', function (req, res, next) {
         id:req.user._id
     });
     });
-  
+
+    // returns user details based on id
+router.get('/user/:id', passport.checkAuthentication, async (req, res) => {
+    try {
+    
+        let user = await User.findById(req.params.id);
+        if (!user) {
+            return res.json({
+                message: 'user not found'
+            });
+        }
+        return res.json({
+            message: 'user found!!',
+            user
+        });
+    } catch (error) {
+        return res.status(200).json({
+            message: 'ERROR!!'
+        });
+    }
+
+});
+
+    
+
 module.exports = router;

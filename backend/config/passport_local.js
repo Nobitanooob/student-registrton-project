@@ -36,11 +36,13 @@ passport.deserializeUser((id, done) => {
 // to authenticate
 
 passport.checkAuthentication = (req, res, next)=> {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()|| User.findById(req.params.id))
     {
         //return true if user is signined
+        // console.log('user checked!!');
        return next();
     }
+
     //if user is not sign-in then redirect to sign-in page 
     return res.json({
         message: "Unautorized attempt"
