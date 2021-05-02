@@ -1,17 +1,31 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-import React from 'react';
-  
+
+
+
 const About = () => {
+  let [user, setUser] = useState('');
+  
+
+  useEffect(() => {
+    // getting user details by api call
+    axios.get(`http://localhost:8000/user/${localStorage.getItem('userId')}`)
+      .then((data) => {
+        console.log(data.data.user);
+        setUser(data.data.user);
+      });
+  },[]);
+
   return (
     <div className="profile"
       style={{
         display: 'flex',
         justifyContent: 'Right',
         alignItems: 'Right',
-        height: '100vh'
-      }}
-    >
-      <h1>profile</h1>
+
+      }}>
+      <p>{user.name}</p>      
     </div>
   );
 };
