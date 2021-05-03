@@ -18,7 +18,7 @@ function RegistrationForm() {
   return (
     <div>
     <Formik
-        initialValues={{ name: '', email: '', department: '', semester: '' }}
+        initialValues={{ name: '', email: '', department: '', semester: 1 }}
         validationSchema={Yup.object({
           name: Yup.string().required('Required'),
           email: Yup.string().email('Invalid email address').required('Required'),
@@ -28,11 +28,16 @@ function RegistrationForm() {
           SetButtonText("Submitting ...")
           let formData = new FormData();
          
-          formData.append("myfile", file[0]);
-          formData.append("data", values.name);
+          formData.append("file", file[0]);
+          formData.append("name", values.name);
+          formData.append("email", values.email);
+          formData.append("department", values.department);
+          formData.append("semester", values.semester);
+
           console.log(formData.get('data'));
           axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
-          {headers: {
+            {
+              headers: {
             'Content-Type': 'multipart/form-data',
           }}
           ).then(res => {
@@ -57,7 +62,7 @@ function RegistrationForm() {
           <ErrorMessage name="department" />
        
           <label htmlFor="semester">Semester </label>
-          <Field name="semester" as="select" type="select">
+          <Field name="semester" as="select" type="number">
             <option value="" >Select Semester</option>
             <option value="1" >1</option>
             <option value="2">2</option>
