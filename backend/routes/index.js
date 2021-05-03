@@ -4,7 +4,9 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.use('/create-student', require('./createStudents'));
+
 router.use('/student', require('./student'));
+
 router.route('/').get((req, res) => {
     return res.render('reg.ejs');
 });
