@@ -1,95 +1,133 @@
 import React, { useState } from 'react';
+import {Grid,Paper } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { Formik, ErrorMessage, Form, Field } from 'formik';
+import Button from '@material-ui/core/Button';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
 
-const marginBottom = {
-  marginBottom:20
-};
+
  
   
 function RegistrationForm() {
-
+    
   const [file, setFile] = useState(null);
   const [buttonText,SetButtonText] = useState("Submit")
   const history = useHistory();
-
+  const marginBottom = {
+        marginBottom:20
+ };
+ const paperStyle={
+    padding:20,
+    height:'70vh',
+    width:300,
+    margin:'20px auto'
+  };
   return (
     <div>
-    <Formik
-        initialValues={{ name: '', email: '', department: '', semester: 1 }}
-        validationSchema={Yup.object({
-          name: Yup.string().required('Required'),
-          email: Yup.string().email('Invalid email address').required('Required'),
-        })}
+      <Grid>
+        <Paper elevation={10} style={paperStyle} >
+              <Formik
+              initialValues={{ name: '', email: '', department: '', semester: 1 }}
+              validationSchema={Yup.object({
+                name: Yup.string().required('Required'),
+                email: Yup.string().email('Invalid email address').required('Required'),
+              })}
 
-        onSubmit={(values) => {
-          SetButtonText("Submitting ...")
-          let formData = new FormData();
-         
-          formData.append("file", file[0]);
-          formData.append("name", values.name);
-          formData.append("email", values.email);
-          formData.append("department", values.department);
-          formData.append("semester", values.semester);
+              onSubmit={(values) => {
+                SetButtonText("Submitting ...")
+                let formData = new FormData();
+              
+                formData.append("file", file[0]);
+                formData.append("name", values.name);
+                formData.append("email", values.email);
+                formData.append("department", values.department);
+                formData.append("semester", values.semester);
 
-          console.log(formData.get('data'));
-          axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
-            {
-              headers: {
-            'Content-Type': 'multipart/form-data',
-          }}
-          ).then(res => {
-            console.log(res.data)
-          });
-        }
-        }
-    >
-      {(formik) => (
-        <Form>
+                console.log(formData.get('data'));
+                axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
+                  {
+                    headers: {
+                  'Content-Type': 'multipart/form-data',
+                }}
+                ).then(res => {
+                  console.log(res.data)
+                });
+              }
+              }
+          >
+            {(formik) => (
+              <Form>
 
-          <label htmlFor="name"></label>
-          <Field  name="name" placeholder="name" fullWidth label="name" type="text " />
-          <ErrorMessage name="name" />
-       
-          <label htmlFor="email"></label>
-          <Field  name="email" placeholder="Email" fullWidth label="Email" type="email" />
-          <ErrorMessage name="email" />
-       
-          <label htmlFor="department"></label>
-          <Field  name="department" placeholder="department" fullWidth label="department" type="text" />
-          <ErrorMessage name="department" />
-       
-          <label htmlFor="semester">Semester </label>
-          <Field name="semester" as="select" type="number">
-            <option value="" >Select Semester</option>
-            <option value="1" >1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-          </Field>
-     
-          <input className="form-group" name="file" type='file' onChange={
-            (event) => setFile(event.target.files)     } />
+                <label htmlFor="name"></label>
+                <Field as={TextField} style={marginBottom}  name="name" placeholder="name" fullWidth label="name" type="text " />
+                <ErrorMessage name="name" />
+            
+                <label htmlFor="email"></label>
+                <Field as={TextField} style={marginBottom} name="email" placeholder="Email" fullWidth label="Email" type="email" />
+                <ErrorMessage name="email" />
+            
+                <label htmlFor="department"></label>
+                <Field as={TextField} style={marginBottom}  name="department" placeholder="department" fullWidth label="department" type="text" />
+                <ErrorMessage name="department" />
+                <FormControl fullWidth variant="outlined" style={marginBottom}>
+                  <InputLabel htmlFor="semester">Semester</InputLabel>
+                  <Select
+                    native
+                    label="Semester"
+                    inputProps={{
+                      name: 'semester',
+                      id: 'outlined-age-native-simple',
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={1} >1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                    <option value={6}>6</option>
+                    <option value={7}>7</option>
+                    <option value={8}>8</option>
+                  </Select>
+                </FormControl>
+                 <input
+                    
+                    style={{display:'none'}}
+                    onChange={(event) => setFile(event.target.files)     }
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Button startIcon={<CloudUploadIcon />} style={marginBottom} variant="contained" color="primary" component="span">
+                      Upload
+                    </Button>
+                  </label>
 
-            <button
-              type="submit"
-              style={marginBottom}
-              color="primary"
-              variant="contained"
-              fullWidth
-            >{ buttonText }</button>
-        </Form>
-      )}
-      </Formik>
+                  <Button
+                    type="submit"
+                    style={marginBottom}
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                  >{ buttonText }</Button>
+              </Form>
+            )}
+            </Formik>
+        </Paper>
+      </Grid>
       </div>
   );
 }
 
 
 export default RegistrationForm;
+
+
+
