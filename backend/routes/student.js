@@ -8,7 +8,9 @@ const path = require('path');
 
 router.post('/form/:id',passport.checkAuthentication, (req, res) => {
     try {
+        console.log(req);
         Reg_Form.uploadedFile(req, res, (err) => {
+            console.log(req.body);
                 if (err) {
                     console.log(`*********multer error***************`, err);
                     return res.json({
