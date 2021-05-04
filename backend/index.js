@@ -16,6 +16,7 @@ const fileUpload = require('express-fileupload');
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(express.json());
     app.use(cookieParser()); // to fetch the cookie in req
     app.use(cors());
