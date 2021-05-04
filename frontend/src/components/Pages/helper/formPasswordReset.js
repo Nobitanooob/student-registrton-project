@@ -35,7 +35,7 @@ export default class FormPasswordReset extends Component {
         onClose={this._handleClose}
         handleSubmit={onClick}
         title="Password Reset"
-        text="Your password was changed successfully"
+        text={this.state.message}
         submitButtonText="Done"
       />
     )
@@ -56,7 +56,7 @@ export default class FormPasswordReset extends Component {
           setSubmitting(false)
           this.setState(() => ({
             passChangeSuccess: true,
-            message: data.message
+            message: data.data.message
           }));
         resetForm()
       })
@@ -89,8 +89,8 @@ export default class FormPasswordReset extends Component {
             setSubmitting,
             resetForm,
           })
-        }
-        render={props => {
+        }>
+        {props => {
           const {
             values,
             touched,
@@ -195,10 +195,11 @@ export default class FormPasswordReset extends Component {
                 </Button>
               </form>
               {this._renderModal()}
-            </Paper>
+              </Paper>
+            
           )
         }}
-      />
+        </Formik>
     )
   }
 }
