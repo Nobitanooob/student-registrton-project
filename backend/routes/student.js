@@ -39,6 +39,7 @@ router.post('/form/:id', async (req, res) => {
                 userId: req.params.id,
                 file: path.join(dir, file.name)
             }
+            console.log(form);
             let newForm = await Reg_Form.create(form);
             console.log('newform', newForm);
             // updating reg form in user

@@ -5,7 +5,7 @@ import { Formik, ErrorMessage, Form, Field } from 'formik';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { Select , MenuItem} from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import * as Yup from 'yup';
 function RegistrationForm() {
     
   const [file, setFile] = useState(null);
+  const [semester, setSemester] = React.useState('');
   const [buttonText,SetButtonText] = useState("Submit")
   const history = useHistory();
   const marginBottom = {
@@ -28,35 +29,46 @@ function RegistrationForm() {
     width:300,
     margin:'20px auto'
   };
+  const handleChange = (event) => {
+    setSemester(event.target.value);
+  };
   return (
     <div>
       <Grid>
         <Paper elevation={10} style={paperStyle} >
               <Formik
-              initialValues={{ name: '', email: '', department: '', semester: 1 }}
+            initialValues={{
+              name: '', email: '', department: ''
+            }}
               validationSchema={Yup.object({
                 name: Yup.string().required('Required'),
                 email: Yup.string().email('Invalid email address').required('Required'),
+                department: Yup.string(),
               })}
 
               onSubmit={(values) => {
                 SetButtonText("Submitting ...")
                 let formData = new FormData();
-              
+                // console.log('values', values);
                 formData.append("file", file[0]);
                 formData.append("name", values.name);
                 formData.append("email", values.email);
                 formData.append("department", values.department);
-                formData.append("semester", values.semester);
+                formData.append("semester", semester);
 
-                console.log(formData.get('data'));
+                // console.log('formData.get())',formData.get('semester'));
                 axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
                   {
                     headers: {
                   'Content-Type': 'multipart/form-data',
                 }}
                 ).then(res => {
-                  console.log(res.data)
+                  console.log(res.data);
+                  if (res)
+                  {
+                    SetButtonText('submitted!!');
+                  }
+                  history.go('/status');
                 });
               }
               }
@@ -75,25 +87,35 @@ function RegistrationForm() {
                 <label htmlFor="department"></label>
                 <Field as={TextField} style={marginBottom}  name="department" placeholder="department" fullWidth label="department" type="text" />
                 <ErrorMessage name="department" />
+               
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
-                  <InputLabel htmlFor="semester">Semester</InputLabel>
+                  <InputLabel htmlFor="semester" id="demo-simple-select-label">Semester</InputLabel>
                   <Select
-                    native
-                    label="Semester"
-                    inputProps={{
-                      name: 'semester',
-                      id: 'outlined-age-native-simple',
-                    }}
+                   
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    name = "semester"
+                    value={semester}
+                    onChange={handleChange}
                   >
-                    <option aria-label="None" value="" />
-                    <option value={1} >1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                    <option value={6}>6</option>
-                    <option value={7}>7</option>
-                    <option value={8}>8</option>
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={6}>6</MenuItem>
+                    <MenuItem value={7}>7</MenuItem>
+                    <MenuItem value={8}>8</MenuItem>
+
+                    {/* <option aria-label="None" value="" />
+                    <option value="1" >1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value= "8">8</option> */}
                   </Select>
                 </FormControl>
                  <input
