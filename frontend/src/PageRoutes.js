@@ -8,13 +8,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Profile from './components/Pages/student/profile';
 import RegistrationForm from './components/Pages/student/registrationForm';
 import Status from './components/Pages/student/status';
-import changePassword from './components/Pages/student/changePassword';
+import changePassword from './components/Pages/changePassword';
  // for teacher
 import ProfileTeacher from './components/Pages/teacher/profileTeacher';
 import AddNewUser from './components/Pages/teacher/addNewUser';
 import PendingRegistration from './components/Pages/teacher/pendingRegistration';
 import SearchUser from './components/Pages/teacher/searchUser';
-import Update from './components/Pages/teacher/update';
+
 
 
 
@@ -42,7 +42,7 @@ function PageRoutes(props) {  //props : userId isStudent
 				<Route path='/profile' component={ProfileTeacher} />
 				<Route path='/addNewUser' component={AddNewUser} />
 				<Route path='/search' component={SearchUser} />
-				<Route path='/update' component={Update} />
+				<Route path='/changePassword' component={changePassword} />
 			</Switch>
 			</Router>
 		);

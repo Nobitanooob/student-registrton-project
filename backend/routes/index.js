@@ -65,7 +65,16 @@ router.post('/changePassword/:id', passport.checkAuthentication, async(req, res)
  
     try {
         let user = await User.findById(req.params.id);
-        user.password = req.body.password;
+        // console.log(req.body);
+        if (user.password !== req.body.currentPassword)
+        {
+            return res.json({
+                messsage: "Please enter correct password!!"
+            });
+        }
+        user.password =  req.body.newPassword;
+        user.save();
+        // console.log(user);
         return res.json({
             message: 'password updated successfully!!'
         })

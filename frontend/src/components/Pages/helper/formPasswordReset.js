@@ -21,12 +21,13 @@ export default class FormPasswordReset extends Component {
   _handleModalClose = () => {
     this.setState(() => ({
       passChangeSuccess: false,
+      message: ''
     }))
   }
 
   _renderModal = () => {
     const onClick = () => {
-      this.setState(() => ({ passChangeSuccess: false }))
+      this.setState(() => ({ passChangeSuccess: false ,message: ''}))
     }
 
     return (
@@ -50,11 +51,12 @@ export default class FormPasswordReset extends Component {
   }) => {
     // fake async login
     setTimeout(async () => {
-      axios.post(`/changePassword/${localStorage.userId}`, { password: currentPass })
+      axios.post(`/changePassword/${localStorage.userId}`, { currentPassword: currentPass ,newPassword: newPass })
         .then((data) => {
           console.log(data);
           setSubmitting(false)
           this.setState(() => ({
+            ...this.state,
             passChangeSuccess: true,
             message: data.data.message
           }));
@@ -106,7 +108,8 @@ export default class FormPasswordReset extends Component {
           ) : (
             <Paper className="form form--wrapper" elevation={10}>
               <form className="form" onSubmit={handleSubmit}>
-                <FormControl fullWidth margin="dense">
+                  <FormControl fullWidth margin="dense">
+                  <input type="text" autocomplete="username" hidden/>
                   <InputLabel
                     htmlFor="password-current"
                     error={Boolean(touched.currentPass && errors.currentPass)}
@@ -119,7 +122,8 @@ export default class FormPasswordReset extends Component {
                     type="password"
                     value={values.currentPass}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                      onBlur={handleBlur}
+                      autoComplete = "current-password"
                     error={Boolean(touched.currentPass && errors.currentPass)}
                   />
                   <FormHelperText
@@ -147,7 +151,8 @@ export default class FormPasswordReset extends Component {
                     type="password"
                     value={values.newPass}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                      onBlur={handleBlur}
+                      autoComplete = "new-password"
                     error={Boolean(touched.newPass && errors.newPass)}
                   />
                   <FormHelperText
@@ -173,7 +178,8 @@ export default class FormPasswordReset extends Component {
                     type="password"
                     value={values.confirmPass}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                      onBlur={handleBlur}
+                      autoComplete = "confirm-password"
                     error={Boolean(touched.confirmPass && errors.confirmPass)}
                   />
                   <FormHelperText

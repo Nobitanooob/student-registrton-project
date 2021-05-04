@@ -3,7 +3,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
 
-import FormPasswordReset from '../helper/formPasswordReset'
+import FormPasswordReset from './helper/formPasswordReset'
 
 const theme = createMuiTheme({
   palette: {
