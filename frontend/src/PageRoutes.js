@@ -5,12 +5,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
 // for student 
-import Profile from './components/Pages/student/profile';
+import Profile from './components/Pages/profile';
 import RegistrationForm from './components/Pages/student/registrationForm';
 import Status from './components/Pages/student/status';
 import changePassword from './components/Pages/changePassword';
  // for teacher
-import ProfileTeacher from './components/Pages/teacher/profileTeacher';
 import AddNewUser from './components/Pages/teacher/addNewUser';
 import PendingRegistration from './components/Pages/teacher/pendingRegistration';
 import SearchUser from './components/Pages/teacher/searchUser';
@@ -39,7 +38,7 @@ function PageRoutes(props) {  //props : userId isStudent
 			<Navbar isStudent={props.isStudent} userId={props.userId}/>
 			<Switch>
 				<Route path='/' exact component={PendingRegistration} />
-				<Route path='/profile' component={ProfileTeacher} />
+				<Route path='/profile' component={Profile} />
 				<Route path='/addNewUser' component={AddNewUser} />
 				<Route path='/search' component={SearchUser} />
 				<Route path='/changePassword' component={changePassword} />

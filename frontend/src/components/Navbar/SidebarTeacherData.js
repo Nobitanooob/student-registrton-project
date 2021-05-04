@@ -22,8 +22,8 @@ export const SidebarTeacherData=[
         cName:'nav-text'
     },
     {
-        title:'Update Profile',
-        path:'/update',
+        title:'Change Password',
+        path:'/changePassword',
         icon:<FaIcons.FaCartPlus/>,
         cName:'nav-text'
     },
