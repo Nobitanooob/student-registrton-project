@@ -12,11 +12,16 @@ router.route('/').post(async (req, res) => {
         if (req.body.confirm_password == req.body.password) {
             let user = await User.create(req.body);
             console.log('user created successfully', user);
-            return res.redirect('back');
+            return res.json({
+                message: 'new user created successfully'
+            });
         }
     } catch (error) {
         console.log(error);
-        return res.redirect('back');
+        return res.json({
+            message: 'Error in creating User !!',
+            error
+        });
     }
 });
 
