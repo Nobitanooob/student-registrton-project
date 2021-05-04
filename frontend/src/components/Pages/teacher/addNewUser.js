@@ -11,6 +11,7 @@ import axios from 'axios';
 import * as Yup from 'yup';
 
 
+
  
   
  const AddNewUser = () => {
@@ -33,17 +34,17 @@ import * as Yup from 'yup';
               <Formik
               initialValues={{ name: '', email: '', department: '',type: 'student',confirm_password: '',password: ''}}
               validationSchema={Yup.object({
-                name: Yup.string().required('Required'),
-                email: Yup.string().email('Invalid email address').required('Required'),
-                department: Yup.string().required('Required'),
+                name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Required'),
+                email: Yup.string().email('Invalid email address').required('Please Enter Email'),
+                department: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Required'),
                 password: Yup.string().min(1).max(20).required('please enter passsword'),
-                confirm_password: Yup.string().min(1).max(20).required('please enter passsword'),
+                confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Passwords do not match').required('Required'),
               })}
 
               onSubmit={(values) => {
                 SetButtonText("Submitting ...");
                 console.log(values);
-                axios.post(`http://localhost:8000/create-student`, values)
+                axios.post(`/create-student`, values)
                 .then(res => {
                   console.log(res.data);
                   // to done later add redirect route
@@ -106,7 +107,3 @@ import * as Yup from 'yup';
 }
 
 export default AddNewUser;
-
-
-
-

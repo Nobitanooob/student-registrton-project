@@ -61,5 +61,19 @@ router.get('/user/:id', passport.checkAuthentication, async (req, res) => {
 });
 
     
+router.post('/changePassword/:id', passport.checkAuthentication, async(req, res) => {
+ 
+    try {
+        let user = await User.findById(req.params.id);
+        user.password = req.body.password;
+        return res.json({
+            message: 'password updated successfully!!'
+        })
+    } catch (error) {
+        return res.json({
+            message: 'Error in Reseting password!!'
+        })
+    }
+})
 
 module.exports = router;

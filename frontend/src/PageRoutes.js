@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Profile from './components/Pages/student/profile';
 import RegistrationForm from './components/Pages/student/registrationForm';
 import Status from './components/Pages/student/status';
-import UpdateProfile from './components/Pages/student/updateProfile';
+import changePassword from './components/Pages/student/changePassword';
  // for teacher
 import ProfileTeacher from './components/Pages/teacher/profileTeacher';
 import AddNewUser from './components/Pages/teacher/addNewUser';
@@ -28,7 +28,7 @@ function PageRoutes(props) {  //props : userId isStudent
 				<Route path='/' exact component={RegistrationForm} />
 				<Route path='/profile' component={Profile} />
 				<Route path='/status' component={Status} />
-				<Route path='/updateProfile' component={UpdateProfile} />
+				<Route path='/changePassword' component={changePassword} />
 			</Switch>
 			</Router>
 		);
