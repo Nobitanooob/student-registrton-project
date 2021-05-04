@@ -109,7 +109,7 @@ export default class FormPasswordReset extends Component {
             <Paper className="form form--wrapper" elevation={10}>
               <form className="form" onSubmit={handleSubmit}>
                   <FormControl fullWidth margin="dense">
-                  <input type="text" autocomplete="username" hidden/>
+                  <input type="text" autoComplete="username" hidden/>
                   <InputLabel
                     htmlFor="password-current"
                     error={Boolean(touched.currentPass && errors.currentPass)}
