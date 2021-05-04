@@ -14,7 +14,7 @@ const fileUpload = require('express-fileupload');
 
     const app = express();
 
-
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.json());

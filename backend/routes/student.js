@@ -21,9 +21,13 @@ router.post('/form/:id', async (req, res) => {
         let dir = path.join(FILE_PATH,req.body.email,req.body.semester);
         if (!fs.existsSync(dir))
         {
+<<<<<<< HEAD
             fs.mkdirSync(dir, { recursive: true })
+=======
+            fs.mkdirSync(dir, { recursive: true });
+>>>>>>> 08e25e2ec0804b9a70fdcb732ddb6a4cc00c78e6
         }
-        file.mv(path.join(dir, file.name), async (err) => {
+        file.mv(path.join(dir,file.name), async (err) => {
             if (err) {
                 console.log(err);
                 return res.status(500).send(err);
