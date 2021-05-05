@@ -205,7 +205,7 @@ const Navbar=(props)=> {
             </div>
           );
         
-          const container = window !== undefined ? () => window().document.body : undefined;
+          const container = windows !== undefined ? () => windows().document.body : undefined;
           return (
             <div className={classes.root}>
               <CssBaseline />
