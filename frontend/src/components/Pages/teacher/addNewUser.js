@@ -23,8 +23,8 @@ import * as Yup from 'yup';
  };
  const paperStyle={
     padding:20,
-    height:'70vh',
-    width:300,
+    height:'auto',
+    width:400,
     margin:'20px auto'
   };
   return (
@@ -69,10 +69,10 @@ import * as Yup from 'yup';
                 <ErrorMessage name="department" />
                 
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
-                  <InputLabel htmlFor="type">User Type</InputLabel>
+                  <InputLabel component='label' htmlFor="type">User Type</InputLabel>
                   <Select
+                  label="UserType"
                     native
-                    label="type"
                     inputProps={{
                       name: 'type',
                       id: 'outlined-age-native-simple',
