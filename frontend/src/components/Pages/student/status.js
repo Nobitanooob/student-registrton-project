@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
 const Status = () => {
   const classes=useStyles();
   let [isEmpty, setEmpty] = useState(true);
@@ -74,13 +73,11 @@ const Status = () => {
                             {form.createdAt.substr(0,10)}
                         </Grid>
                         <Grid item xs={1} sm>
-                        <Typography variant="body2" style={{flexDirection:'flex-end',display:'flex'}}>
-                        {form.isVerified?'true':'false'}
+                        <Typography variant="body2" >
+                        {form.isVerified? 'true':'false'}
                       </Typography>
                         </Grid>
                     </Grid>
-                   
-                 
                   </Grid>
                 </Grid>
               </Grid>
