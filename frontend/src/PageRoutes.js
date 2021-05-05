@@ -1,18 +1,9 @@
 import React from 'react';
 // import './PageRoutes.css';
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
-// for student 
-import Profile from './components/Pages/profile';
-import RegistrationForm from './components/Pages/student/registrationForm';
-import Status from './components/Pages/student/status';
-import changePassword from './components/Pages/changePassword';
- // for teacher
-import AddNewUser from './components/Pages/teacher/addNewUser';
-import PendingRegistration from './components/Pages/teacher/pendingRegistration';
-import SearchUser from './components/Pages/teacher/searchUser';
 
 
 
@@ -23,12 +14,7 @@ function PageRoutes(props) {  //props : userId isStudent
 		return (
 			<Router>
 			<Navbar isStudent={props.isStudent} userId={props.userId}/>
-			<Switch>
-				<Route path='/' exact component={RegistrationForm} />
-				<Route path='/profile' component={Profile} />
-				<Route path='/status' component={Status} />
-				<Route path='/changePassword' component={changePassword} />
-			</Switch>
+			
 			</Router>
 		);
 	}
@@ -36,13 +22,7 @@ function PageRoutes(props) {  //props : userId isStudent
 		return (
 			<Router>
 			<Navbar isStudent={props.isStudent} userId={props.userId}/>
-			<Switch>
-				<Route path='/' exact component={PendingRegistration} />
-				<Route path='/profile' component={Profile} />
-				<Route path='/addNewUser' component={AddNewUser} />
-				<Route path='/search' component={SearchUser} />
-				<Route path='/changePassword' component={changePassword} />
-			</Switch>
+			
 			</Router>
 		);
 	}

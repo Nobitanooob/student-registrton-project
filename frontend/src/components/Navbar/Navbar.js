@@ -1,17 +1,88 @@
-import React,{useState} from 'react'
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from 'react-icons/ai';
+import React,{useState} from 'react';
 import {SidebarStudentData} from './SidebarStudentData';
 import {SidebarTeacherData} from './SidebarTeacherData';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
-import {IconContext} from 'react-icons';
+//new link
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuIcon from '@material-ui/icons/Menu';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+
+import { BrowserRouter as  Switch, Route } from 'react-router-dom';
 
 
+// for student 
+import Profile from '../Pages/profile';
+import RegistrationForm from '../Pages/student/registrationForm';
+import Status from '../Pages/student/status';
+import changePassword from '../Pages/changePassword';
+ // for teacher
+import AddNewUser from '../Pages/teacher/addNewUser';
+import PendingRegistration from '../Pages/teacher/pendingRegistration';
+import SearchUser from '../Pages/teacher/searchUser';
 
 
-const Navbar = (props) => {
-	const btnStyle={
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  title:{
+   flexGrow: 1,
+    
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
+
+const Navbar=(props)=> {
+    const { window } = props;
+    const classes = useStyles();
+    const theme = useTheme();
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+  
+    const handleDrawerToggle = () => {
+      setMobileOpen(!mobileOpen);
+    };
+    const btnStyle={
 		height:50,
 		width:100,
 		color:'blue',
@@ -28,85 +99,185 @@ const Navbar = (props) => {
 	}
 	if (props.isStudent)
 	{
-		return (
-			<>
-			<IconContext.Provider value={{color:'#fff'}}>
-            <div className="navbar">
-                <Link to="#" className="menu-bars">
-                    <FaIcons.FaBars onClick={showSidebar}/>
-                </Link>
-                <div className="btnDiv">
-					<button type="submit" onClick={handleSignout} className="btn" style={btnStyle}>LogOut</button>
-				</div>
-
+        const drawer = (
+            <div>
+              <div className={classes.toolbar} />
+              <Divider />
+              <List>
+                {SidebarStudentData.map((item, index) => (
+                  <ListItem button component={Link}
+                    key={index}
+                    to={item.path} >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.title} />
+                 </ListItem>
+                ))}
+              </List>
+              <Divider />
             </div>
-            <nav className={sidebar?'nav-menu active':'nav-menu'}>
-                <ul className="nav-menu-items" onClick={showSidebar}>
-                    <li className="navbar-toggle">
-                        <Link to="#" className="menu-bars">
-                            <AiIcons.AiOutlineClose/>
-                        </Link>
+          );
+        
+          const container = window !== undefined ? () => window().document.body : undefined;
+          return (
+            <div className={classes.root}>
+              <CssBaseline />
+              <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    className={classes.menuButton}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="h6" noWrap className={classes.title} >
+                    Responsive drawer
+                  </Typography>
+                  <Button  color="inherit" type="submit" onClick={handleSignout}>LogOut</Button>
+                  
+                </Toolbar>
+              </AppBar>
+              <nav className={classes.drawer} aria-label="mailbox folders">
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Hidden smUp implementation="css">
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    classes={{
+                      paper: classes.drawerPaper,
+                    }}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                  >
+                    {drawer}
+                  </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                  <Drawer
+                    classes={{
+                      paper: classes.drawerPaper,
+                    }}
+                    variant="permanent"
+                    open
+                  >
+                    {drawer}
+                  </Drawer>
+                </Hidden>
+              </nav>
+              <main className={classes.content}>
+                  
+                <div className={classes.toolbar} />
 
-                    </li>
-                    {SidebarStudentData.map((item,index)=>{
-                        return(
-                            <li key={index} className={item.cName}>
-                                <Link to={item.path}>
-                                    {item.icon}
-                                    <span>{item.title}</span>
-                                </Link>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </nav>
-        	</IconContext.Provider>
-
-
-			</>
-		);
-				
+            
+                  
+                        <Route path='/' exact  component={RegistrationForm} />
+                        <Route path='/changePassword' exact  component={changePassword} />
+                        <Route path='/profile' exact  component={Profile} />
+                        <Route path='/status'exact  component={Status} />
+                        
+              </main>
+            </div>
+            
+          );	
 	}
 	else
 	{
 
-		return (
-			<>
-				<IconContext.Provider value={{color:'#fff'}}>
-                    <div className="navbar">
-                        <Link to="#" className="menu-bars">
-                            <FaIcons.FaBars onClick={showSidebar}/>
-                        </Link>
-                        <div className="btnDiv">
+		const drawer = (
+            <div>
+              <div className={classes.toolbar} />
+              <Divider />
+              <List>
+                {SidebarTeacherData.map((item, index) => (
+                  <ListItem button component={Link}
+                    key={index}
+                    to={item.path} >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.title} />
+                 </ListItem>
+                ))}
+              </List>
+              <Divider />
+            </div>
+          );
+        
+          const container = window !== undefined ? () => window().document.body : undefined;
+          return (
+            <div className={classes.root}>
+              <CssBaseline />
+              <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    className={classes.menuButton}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="h6" noWrap>
+                    Responsive drawer
+                  </Typography>
+                  <div className="btnDiv">
                             <button type="submit" onClick={handleSignout} className="btn" style={btnStyle}>LogOut</button>
                         </div>
+                </Toolbar>
+              </AppBar>
+              <nav className={classes.drawer} aria-label="mailbox folders">
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Hidden smUp implementation="css">
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    classes={{
+                      paper: classes.drawerPaper,
+                    }}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                  >
+                    {drawer}
+                  </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                  <Drawer
+                    classes={{
+                      paper: classes.drawerPaper,
+                    }}
+                    variant="permanent"
+                    open
+                  >
+                    {drawer}
+                  </Drawer>
+                </Hidden>
+              </nav>
+              <main className={classes.content}>
+                  
+                <div className={classes.toolbar} />
+
+            
+                  
+                <Route path='/' exact component={PendingRegistration} />
+				<Route path='/profile' component={Profile} />
+				<Route path='/addNewUser' component={AddNewUser} />
+				<Route path='/search' component={SearchUser} />
+				<Route path='/changePassword' component={changePassword} />
                         
-                    </div>
-                    <nav className={sidebar?'nav-menu active':'nav-menu'}>
-                        <ul className="nav-menu-items" onClick={showSidebar}>
-                            <li className="navbar-toggle">
-                                <Link to="#" className="menu-bars">
-                                    <AiIcons.AiOutlineClose/>
-                                </Link>
-
-                            </li>
-                            {SidebarTeacherData.map((item,index)=>{
-                                return(
-                                    <li key={index} className={item.cName}>
-                                        <Link to={item.path}>
-                                            {item.icon}
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </nav>
-        	</IconContext.Provider>
-
-			</>
-		);
+              </main>
+            </div>
+            
+          );	
 	}
 };
-
 export default Navbar;
+
