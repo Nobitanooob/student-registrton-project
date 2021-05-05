@@ -226,16 +226,14 @@ const Navbar=(props)=> {
                   >
                     <MenuIcon />
                   </IconButton>
-                  <Typography variant="h6" noWrap>
+                  <Typography variant="h6" noWrap className={classes.title}>
                         <Route path='/' exact  >Registration Form</Route>
                         <Route path='/profile' exact >Profile</Route>
                         <Route path='/addNewUser' exact  >Add New User</Route>
                         <Route path='/search'exact  >Search</Route>
                         <Route path='/changePassword'exact  >Change Password</Route>
                   </Typography>
-                  <div className="btnDiv">
-                            <button type="submit" onClick={handleSignout} className="btn" style={btnStyle}>LogOut</button>
-                        </div>
+                  <Button  color="inherit" type="submit" onClick={handleSignout}>LogOut</Button>
                 </Toolbar>
               </AppBar>
               <nav className={classes.drawer} aria-label="mailbox folders">
