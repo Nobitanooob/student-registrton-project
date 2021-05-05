@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {SidebarStudentData} from './SidebarStudentData';
 import {SidebarTeacherData} from './SidebarTeacherData';
 import './Navbar.css';
@@ -20,7 +20,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import { BrowserRouter as  Switch, Route } from 'react-router-dom';
+import {  Route } from 'react-router-dom';
 
 
 // for student 
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar=(props)=> {
-    const { window } = props;
+    const { windows } = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -82,14 +82,8 @@ const Navbar=(props)=> {
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
-    const btnStyle={
-		height:50,
-		width:100,
-		color:'blue',
-	};
+   
 	
-	const [sidebar,setSidebar]=useState(false);
-    const showSidebar=()=>setSidebar(!sidebar);
 	const handleSignout = () => {
 		localStorage.removeItem('userId');
 		localStorage.removeItem('userType');
@@ -117,7 +111,7 @@ const Navbar=(props)=> {
             </div>
           );
         
-          const container = window !== undefined ? () => window().document.body : undefined;
+          const container = windows!== undefined ? () => windows().document.body : undefined;
           return (
             <div className={classes.root}>
               <CssBaseline />
