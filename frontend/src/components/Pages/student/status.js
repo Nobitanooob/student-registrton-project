@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,10 +71,10 @@ const Status = () => {
                             {form.semester}
                         </Grid>
                         <Grid item xs={3} sm>
-                            {form.createdAt}
+                            {form.createdAt.substr(0,10)}
                         </Grid>
                         <Grid item xs={1} sm>
-                        <Typography variant="body2" >
+                        <Typography variant="body2" style={{flexDirection:'flex-end',display:'flex'}}>
                         {form.isVerified?'true':'false'}
                       </Typography>
                         </Grid>
