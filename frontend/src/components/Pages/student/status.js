@@ -48,6 +48,39 @@ const Status = () => {
       ):
 
     <div>
+
+
+<div className={classes.root}>
+            <Paper className={classes.paper} style={{margin:'0 15px'}}>
+              <Grid container spacing={10} >
+                <Grid item xs={12} sm container >
+                  <Grid item xs container direction="column" spacing={5} >
+                  
+                    <Grid container item xs={12} style={{display:"flex",flexDirection:'row'}} spacing={3}>
+                      
+                            <Grid item xs={4} >
+                            <strong style={{fontSize:"1rem"}}>Email</strong>
+                        </Grid>
+                        <Grid item xs={2} sm>
+                        <strong style={{fontSize:"1rem"}}>Department</strong> 
+                        </Grid>
+                        <Grid item xs={2} sm>
+                        <strong style={{fontSize:"1rem"}}>Semester</strong>
+                        </Grid>
+                        <Grid item xs={3} sm>
+                        <strong style={{fontSize:"1rem"}}>Date</strong>
+                        </Grid>
+                        <Grid item xs={1} sm>
+                        <Typography variant="body2" >
+                        <strong style={{fontSize:"1rem"}}>Status</strong>
+                      </Typography>
+                        </Grid>
+                    </Grid>
+              </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          </div>
         {forms.map((form) => {
           return(
           
@@ -60,6 +93,7 @@ const Status = () => {
                   <Grid item xs container direction="column" spacing={2}>
                   
                     <Grid container item xs={12} style={{display:"flex",flexDirection:'row'}} spacing={3}>
+                      
                             <Grid item xs={4} >
                             {form.email}
                         </Grid>
@@ -78,7 +112,7 @@ const Status = () => {
                       </Typography>
                         </Grid>
                     </Grid>
-                  </Grid>
+              </Grid>
                 </Grid>
               </Grid>
             </Paper>
