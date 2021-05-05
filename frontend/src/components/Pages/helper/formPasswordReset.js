@@ -6,7 +6,8 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
+import {Grid,Paper } from '@material-ui/core';
+
 import axios from 'axios'
 
 import Spinner from './spinner'
@@ -66,6 +67,12 @@ export default class FormPasswordReset extends Component {
   }
 
   render() {
+    const paperStyles={
+      padding:20,
+      height:'auto',
+      width:300,
+      margin:'20px auto'
+    };
     return (
       <Formik
         initialValues={{
@@ -106,7 +113,9 @@ export default class FormPasswordReset extends Component {
           return isSubmitting ? (
             <Spinner />
           ) : (
-            <Paper className="form form--wrapper" elevation={10}>
+            <Grid>
+            <Paper className="form form--wrapper" elevation={10} style={paperStyles}>
+              <h1>Reset Password</h1>
               <form className="form" onSubmit={handleSubmit}>
                   <FormControl fullWidth margin="dense">
                   <input type="text" autoComplete="username" hidden/>
@@ -192,17 +201,18 @@ export default class FormPasswordReset extends Component {
                 </FormControl>
                 <Button
                   type="submit"
-                  variant="raised"
+                  variant="contained"
                   color="primary"
                   disabled={Boolean(!isValid || isSubmitting)}
                   style={{ margin: '16px' }}
                 >
-                  {'Reset Password'}
+                  Reset Password
                 </Button>
+                
               </form>
               {this._renderModal()}
               </Paper>
-            
+              </Grid>
           )
         }}
         </Formik>

@@ -1,7 +1,6 @@
 import React from 'react';
 import {SidebarStudentData} from './SidebarStudentData';
 import {SidebarTeacherData} from './SidebarTeacherData';
-import './Navbar.css';
 import { Link } from 'react-router-dom';
 //new link
 import AppBar from '@material-ui/core/AppBar';

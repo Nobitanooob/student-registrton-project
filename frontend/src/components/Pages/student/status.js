@@ -1,7 +1,25 @@
 import React,{useState , useEffect} from 'react';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: 'auto',
+    
+  }
+}));
+
 
 const Status = () => {
+  const classes=useStyles();
   let [isEmpty, setEmpty] = useState(true);
   let [forms, setForms] = useState([]);
 
@@ -29,16 +47,54 @@ const Status = () => {
         <div>
           <h1>No Registration form to show!!</h1>
         </div>
-      )
-      :
+      ):
+
     <div>
-        <h1>Registration Form</h1>
         {forms.map((form) => {
-          return <h2>{form.isVerified ? 'true' : 'false'}</h2>
+          return(
+          
+          <li style={{listStyle:'none',margin:"1rem"}}>
+            
+            <div className={classes.root}>
+            <Paper className={classes.paper}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                  
+                    <Grid container item xs={12} style={{display:"flex",flexDirection:'row'}} spacing={3}>
+                            <Grid item xs={4} >
+                            {form.email}
+                        </Grid>
+                        <Grid item xs={2} sm>
+                            {form.department}
+                        </Grid>
+                        <Grid item xs={2} sm>
+                            {form.semester}
+                        </Grid>
+                        <Grid item xs={3} sm>
+                            {form.createdAt}
+                        </Grid>
+                        <Grid item xs={1} sm>
+                        <Typography variant="body2" >
+                        {form.isVerified?'true':'false'}
+                      </Typography>
+                        </Grid>
+                    </Grid>
+                   
+                 
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          </div>
+          </li>
+          
+          );
         })
         }
-   </div>
+        </div>
     );
+    
     };
      
 export default Status;
