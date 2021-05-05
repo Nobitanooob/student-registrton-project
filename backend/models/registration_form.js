@@ -1,6 +1,5 @@
 const path = require('path')
 const mongoose = require('mongoose');
-const FILE_PATH = path.join('/uploads/users');
 
 const reg_form_schema = new mongoose.Schema({
     name: {
@@ -25,6 +24,10 @@ const reg_form_schema = new mongoose.Schema({
     },
     file: {
         type: String,
+        required: true
+    },
+    isVerified : {
+        type : Boolean,
         required: true
     }
 }, {

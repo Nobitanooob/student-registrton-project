@@ -37,7 +37,8 @@ router.post('/form/:id', async (req, res) => {
                 department: req.body.department,
                 semester: req.body.semester,
                 userId: req.params.id,
-                file: path.join(dir, file.name)
+                file: path.join(dir, file.name),
+                isVerified : false 
             }
             console.log(form);
             let newForm = await Reg_Form.create(form);
@@ -45,6 +46,7 @@ router.post('/form/:id', async (req, res) => {
             // updating reg form in user
             let user = await User.findById(req.params.id);
             user.forms.push(newForm.id);
+            user.save();
             console.log('user', user);
             return res.json({
                 message: 'File uploaded!!',
@@ -54,11 +56,36 @@ router.post('/form/:id', async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.json({
-            message: 'error in uploading file'
+            message: 'error in uploading file !!'
         })
     }
 });
 
+
+// registration form get req
+router.route('/form/:id').get(async (req, res) => {
+   try {
+       
+    let user = await User.findById(req.params.id).populate('forms')
+       if (!user)
+       {
+           return res.json({
+               message: 'error in finding User!!'
+           });
+       }
+       console.log("user",user);
+       let forms = user.forms;
+       return res.json({
+           forms
+       });
+       
+   } catch (error) {
+    console.log(error);
+    return res.json({
+        message: 'error in fetching Forms!!'
+    })
+   } 
+});
 
 
 module.exports = router;

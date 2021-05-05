@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Reg_Form = require('../models/registration_form')
 
 const userschema = new mongoose.Schema({
     name: {

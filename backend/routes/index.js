@@ -60,7 +60,7 @@ router.get('/user/:id', passport.checkAuthentication, async (req, res) => {
 
 });
 
-    
+    // change password 
 router.post('/changePassword/:id', passport.checkAuthentication, async(req, res) => {
  
     try {
