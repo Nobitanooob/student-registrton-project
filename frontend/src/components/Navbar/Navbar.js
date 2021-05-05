@@ -133,7 +133,11 @@ const Navbar=(props)=> {
                     <MenuIcon />
                   </IconButton>
                   <Typography variant="h6" noWrap className={classes.title} >
-                    Responsive drawer
+                        <Route path='/' exact  >Registration</Route>
+                        <Route path='/changePassword' exact >Change Password</Route>
+                        <Route path='/profile' exact  >Profile</Route>
+                        <Route path='/status'exact  >Status</Route>
+                    
                   </Typography>
                   <Button  color="inherit" type="submit" onClick={handleSignout}>LogOut</Button>
                   
@@ -223,7 +227,11 @@ const Navbar=(props)=> {
                     <MenuIcon />
                   </IconButton>
                   <Typography variant="h6" noWrap>
-                    Responsive drawer
+                        <Route path='/' exact  >Registration Form</Route>
+                        <Route path='/profile' exact >Profile</Route>
+                        <Route path='/addNewUser' exact  >Add New User</Route>
+                        <Route path='/search'exact  >Search</Route>
+                        <Route path='/changePassword'exact  >Change Password</Route>
                   </Typography>
                   <div className="btnDiv">
                             <button type="submit" onClick={handleSignout} className="btn" style={btnStyle}>LogOut</button>
