@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const Reg_Form = require('../models/registration_form');
 const User = require('../models/User');
 const router = express.Router();
 
@@ -10,6 +11,36 @@ router.use('/student', require('./student'));
 router.route('/').get((req, res) => {
     return res.render('reg.ejs');
 });
+
+router.route('/allReg').get(async (req, res) => {
+    try {
+        let reg = await Reg_Form.find({}).populate('userId');
+        return res.json({
+            message: `User's data fetched successfully!!`,
+            reg
+        });
+    } catch (error) {
+        return req.json({
+            message: 'error in fetching users data',
+            error
+        });
+    }
+});
+// get all users data
+router.route('/users').get(async (req, res) => {
+    try {
+        let user = await User.find({}).populate('forms');
+        return res.json({
+            message: `User's data fetched successfully!!`,
+            user
+        });
+    } catch (error) {
+        return req.json({
+            message: 'error in fetching users data',
+            error
+        });
+    }
+})
 
 //login
 router.post('/', function (req, res, next) {

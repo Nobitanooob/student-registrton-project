@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const FILE_PATH = path.join(__dirname, '..', '/uploads/reg');
 
+
+
 // registration form 
 router.post('/form/:id', async (req, res) => {
     try {
