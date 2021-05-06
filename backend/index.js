@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded());
 app.use(express.json());
     app.use(cookieParser()); // to fetch the cookie in req
     app.use(cors());
-   
+    app.use(express.static('public'));
 app.use(fileUpload());
 
     app.set('view engine', 'ejs');

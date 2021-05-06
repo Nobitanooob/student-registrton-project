@@ -116,6 +116,8 @@ router.post('/changePassword/:id', passport.checkAuthentication, async(req, res)
     }
 })
 
-
+router.route('/download/:path').get(async (req, res) => {
+    return res.sendFile(req.params.path);
+})
 
 module.exports = router;

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 
@@ -30,7 +31,8 @@ export default function PendingReg() {
     {
       field: 'file', headerName: 'Form', width: 130,
       renderCell: (params) => (
-        <a href={params} target="_blank" rel="noreferrer">Form</a>
+        <a target='_blank' href={params.value} rel="noopener noreferrer" >Your Text</a>
+        // <Link to={params.value}>{params.value} </Link>
       )
     },
     {

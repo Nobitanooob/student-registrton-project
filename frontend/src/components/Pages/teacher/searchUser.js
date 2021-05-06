@@ -94,7 +94,7 @@ export default function SearchUser() {
       </Select>
       <TextField
         style={{ width: '75%' , margin: 10 , justifyItems: 'flex-end'}}
-         placeholder="Search Employees"
+         placeholder= {`search user by ${filter}`}
          InputProps={{
              startAdornment: (<InputAdornment position="start">
                  <Search />
