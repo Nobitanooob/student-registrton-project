@@ -110,6 +110,7 @@ export default function SearchUser() {
         disableColumnMenu={true}
       />
     </div>
+   
   );
 }
 

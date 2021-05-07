@@ -4,6 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { blue, green } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
+import Chip from '@material-ui/core/Chip';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,7 +112,27 @@ const Status = () => {
                         </Grid>
                         <Grid item xs={1} sm>
                         <Typography variant="body2" >
-                        {form.isVerified? 'true':'false'}
+                        {form.isVerified === 'verified' &&
+                           <Chip
+                              label={form.isVerified + "!!"}
+                              style={{ color: green[600] }}
+                              variant="outlined"
+                          />
+                        }
+                        {form.isVerified === 'rejected' &&
+                          <Chip
+                              label={form.isVerified + "!!"}
+                              style={{ color: red[600] }}
+                              variant="outlined"
+                          />
+                        }
+                        {form.isVerified === 'pending' &&
+                          <Chip
+                              label={form.isVerified + "!!"}
+                              style={{ color: blue[600] }}
+                              variant="outlined"
+                          />
+                        }    
                       </Typography>
                         </Grid>
                     </Grid>

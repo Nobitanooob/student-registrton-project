@@ -7,7 +7,22 @@ const fs = require('fs');
 const path = require('path');
 const FILE_PATH = path.join(__dirname, '..', '/uploads/reg');
 
-
+router.route('/status').post(async (req, res) => {
+    try {
+        let form = await Reg_Form.findById(req.query.id);
+        console.log(form); 
+        form.isVerified = req.query.value;
+        form.save();
+        return res.json({
+            message: `form status succcessfully updated to : ${req.query.value} !!`
+        });
+    } catch (error) {
+        return res.json({
+            message: `error in updating status!!`
+        });
+    }
+    
+})
 
 // registration form 
 router.post('/form/:id', async (req, res) => {
@@ -40,7 +55,7 @@ router.post('/form/:id', async (req, res) => {
                 semester: req.body.semester,
                 userId: req.params.id,
                 file: path.join(dir, file.name),
-                isVerified : false 
+                isVerified : 'pending' 
             }
             console.log(form);
             let newForm = await Reg_Form.create(form);
