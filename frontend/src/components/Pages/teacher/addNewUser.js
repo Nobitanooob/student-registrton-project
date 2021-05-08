@@ -4,20 +4,22 @@ import { useHistory } from "react-router-dom";
 import { Formik, ErrorMessage, Form, Field } from 'formik';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { Select, NativeSelect } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
 
 
-
- 
   
  const AddNewUser = () => {
     
    const [buttonText, SetButtonText] = useState("Submit");
-  const history = useHistory();
+   const [program, setProgram] = useState('teacher');
+   const [department, setDepartment] = useState('teacher');
+   const [usertype, setType] = useState('teacher');
+   const history = useHistory();
+   
   const marginBottom = {
         marginBottom:20
  };
@@ -32,11 +34,10 @@ import * as Yup from 'yup';
       <Grid>
         <Paper elevation={10} style={paperStyle} >
               <Formik
-              initialValues={{ name: '', email: '', department: '',type: 'student',confirm_password: '',password: ''}}
-              validationSchema={Yup.object({
+              initialValues={{ name: '', email: '' ,confirm_password: '',password: ''}}
+            validationSchema={Yup.object({
                 name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Required'),
                 email: Yup.string().email('Invalid email address').required('Please Enter Email'),
-                department: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Required'),
                 password: Yup.string().min(1).max(20).required('please enter passsword'),
                 confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Passwords do not match').required('Required'),
               })}
@@ -44,7 +45,20 @@ import * as Yup from 'yup';
               onSubmit={(values) => {
                 SetButtonText("Submitting ...");
                 console.log(values);
-                axios.post(`/create-student`, values)
+                console.log(department);
+                console.log(usertype);
+                console.log(program);
+
+                let user = {
+                  name: values.name,
+                  email: values.email,
+                  confirm_password: values.confirm_password,
+                  password: values.password,
+                  department: department,
+                  type : usertype,
+                  programme: program
+                }
+                axios.post(`/create-student`,user )
                 .then(res => {
                   console.log(res.data);
                   // to done later add redirect route
@@ -52,9 +66,31 @@ import * as Yup from 'yup';
                 });
               }
               }
+            
+            
+            
           >
             {(formik) => (
               <Form>
+
+                <FormControl fullWidth variant="outlined" style={marginBottom}>
+                  <InputLabel component='label' htmlFor="type">User Type</InputLabel>
+                  <NativeSelect
+                  label="UserType"
+                    name="type"
+                    value ={usertype}
+                    onChange={(e) => {
+                      setType(e.target.value);
+                      e.target.value === 'student' && setProgram('btech');
+                      e.target.value === 'student' && setDepartment('Electronics Communication Engineering');
+                      e.target.value === 'teacher' && setProgram('teacher');
+                      e.target.value === 'teacher' && setDepartment('teacher');
+                    }}
+                  >
+                    <option value = 'student'>Student</option>
+                    <option value = 'teacher'>Teacher</option>
+                  </NativeSelect>
+                </FormControl>
 
                 <label htmlFor="name"></label>
                 <Field as={TextField} style={marginBottom}  name="name" placeholder="name" fullWidth label="name" type="text " />
@@ -63,27 +99,131 @@ import * as Yup from 'yup';
                 <label htmlFor="email"></label>
                 <Field as={TextField} style={marginBottom} name="email" placeholder="Email" fullWidth label="Email" type="email" />
                 <ErrorMessage name="email" />
-            
-                <label htmlFor="department"></label>
-                <Field as={TextField} style={marginBottom}  name="department" placeholder="department" fullWidth label="department" type="text" />
-                <ErrorMessage name="department" />
-                
+
+                {usertype === 'student' && <div>
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
-                  <InputLabel component='label' htmlFor="type">User Type</InputLabel>
+                  <InputLabel component='label' htmlFor="type">Programme</InputLabel>
                   <Select
-                  label="UserType"
+                  label="programme"
                     native
                     inputProps={{
-                      name: 'type',
+                      name: 'programme',
                       id: 'outlined-age-native-simple',
                     }}
+                      onChange={(e) => {
+                        setProgram(e.target.value);
+                        e.target.value === 'mba' && setDepartment('mba');
+                        e.target.value === 'mca' && setDepartment('mca');
+
+                      }}
                   >
-                    <option aria-label="None" value="" />
-                    <option value= 'student' >Student</option>
-                    <option value='teacher'>Teacher</option>
+                    <option value= 'btech' >B.Tech</option>
+                    <option value='mtech'>M.Tech</option>
+                    <option value='phd'>Ph.D</option>
+                    <option value='mca'>MCA</option>
+                    <option value='mba'>MBA</option>
+
                   </Select>
                 </FormControl>
-
+            
+                {program === 'btech' &&
+                    <FormControl fullWidth variant="outlined" style={marginBottom}>
+                    <InputLabel component='label' htmlFor="department">Department</InputLabel>
+                    <Select
+                    label="Department"
+                      native
+                      inputProps={{
+                        name: 'department',
+                        id: 'outlined-age-native-simple',
+                      }}
+                      onClick={(e) => { setDepartment(e.target.value);}}
+                    >
+                    <option value= 'Electronics Communication Engineering' >Electronics & Communication Engineering</option>
+                    <option value='Computer Engineering'>Computer Engineering</option>
+                    <option value='Information Technology'>Information Technology</option>
+                    <option value='Industrial Engineering Management'>Industrial Engineering & Management</option>
+                    <option value='Electrical Engineering'>Electrical Engineering	</option>
+                    <option value='Civil Engineering'>Civil Engineering	</option>
+                    </Select>
+                  </FormControl>
+                }
+                
+                {program === 'mtech' &&
+                    <FormControl fullWidth variant="outlined" style={marginBottom}>
+                    <InputLabel component='label' htmlFor="department">Department</InputLabel>
+                    <Select
+                    label="Department"
+                      native
+                      inputProps={{
+                        name: 'department',
+                        id: 'outlined-age-native-simple',
+                      }}
+                      onChange={(e) => { setDepartment(e.target.value);}}
+                    >
+                    <option value= 'Electronics Communication Engineering' >Electronics & Communication Engineering</option>
+                    <option value='Electrical Engineering'>Electrical Engineering	</option>
+                    <option value='Civil Engineering'>Civil Engineering	</option>
+                    <option value='Mechanical Engineering'> Mechanical Engineering	</option>
+                    <option value='Physics'>Physics	</option>
+                    <option value='Computer Engineering'>Computer Engineering	</option>
+                    <option value='School of VLSI Design Embedded Systems'>CSchool of VLSI Design & Embedded Systems	</option>
+                    <option value=' School of Energy and Efficiency'> School of Energy and Efficiency	</option>
+                    </Select>
+                  </FormControl>
+                }
+                 {program === 'phd' &&
+                    <FormControl fullWidth variant="outlined" style={marginBottom}>
+                    <InputLabel component='label' htmlFor="department">Department</InputLabel>
+                    <Select
+                    label="Department"
+                      native
+                      inputProps={{
+                        name: 'department',
+                        id: 'outlined-age-native-simple',
+                      }}
+                      onChange={(e) => { setDepartment(e.target.value);}}
+                    >
+                    <option value= 'Engineering Departments/Schools' > Engineering Departments/Schools</option>
+                    <option value='Sciences'>Sciences </option>
+                    <option value='Humanities & Social Sciences'>Humanities & Social Sciences</option>
+                    <option value='Deptt. of Computer Applications'>Deptt. of Computer Applications</option>
+                    <option value=' Deptt. of Business Administration'> Deptt. of Business Administration</option>
+                    </Select>
+                  </FormControl>
+                }
+                  {program === 'mba' &&
+                    <FormControl fullWidth variant="outlined" style={marginBottom}>
+                    <InputLabel component='label' htmlFor="department">Department</InputLabel>
+                    <Select
+                    label="Department"
+                      native
+                      inputProps={{
+                        name: 'department',
+                        id: 'outlined-age-native-simple',
+                      }}
+                      onChange={(e) => { setDepartment(e.target.value);}}
+                    >
+                    <option value= 'mba' default>MBA</option>
+                    </Select>
+                    </FormControl>
+                }
+                {program === 'mca' &&
+                    <FormControl fullWidth variant="outlined" style={marginBottom}>
+                    <InputLabel component='label' htmlFor="department">Department</InputLabel>
+                    <Select
+                    label="Department"
+                      native
+                      inputProps={{
+                        name: 'department',
+                        id: 'outlined-age-native-simple',
+                      }}
+                      onChange={(e) => { setDepartment(e.target.value);}}
+                    >
+                    <option value= 'mca' default>MCA</option>
+                    </Select>
+                  </FormControl>
+                }
+                </div>}
                 <Field as={TextField} style={marginBottom}  name="password" placeholder="Enter Password" fullWidth label="Password" type="text" />
                 <ErrorMessage name="password" />
 
