@@ -24,6 +24,42 @@ router.route('/status').post(async (req, res) => {
     
 })
 
+// registration form via firebase
+router.route('/uploadForm/:id').post(async (req, res) => {
+
+    try {
+        let form = {
+            name: req.body.name,
+            email: req.body.email,
+            department: req.body.department,
+            semester: req.body.semester,
+            userId: req.params.id,
+            file: req.body.fileUrl,
+            isVerified : 'pending' 
+        }
+        console.log(form);
+        let newForm = await Reg_Form.create(form);
+        console.log('newform', newForm);
+        // updating reg form in user
+        let user = await User.findById(req.params.id);
+        user.forms.push(newForm.id);
+        user.save();
+        console.log('user', user);
+        return res.json({
+            message: 'File uploaded!!',
+            newForm
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            message: 'error in uploading file !!'
+        });
+    }
+    
+})
+
+
 // registration form 
 router.post('/form/:id', async (req, res) => {
     try {

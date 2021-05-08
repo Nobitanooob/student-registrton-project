@@ -10,16 +10,37 @@ import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
+import firebase from 'firebase';
 
 
  
   
 function RegistrationForm() {
     
-  const [file, setFile] = useState(null);
+  const [uploadedFile, setFile] = useState(null);
+  const [fileUrl, setUrl] = useState();
   const [semester, setSemester] = React.useState('');
   const [buttonText,SetButtonText] = useState("Submit")
   const history = useHistory();
+
+
+  const handleFile = async (e) => {
+    // setFile(e.target.files);
+
+    try {
+      let file = uploadedFile[0];
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(file.name);
+      await fileRef.put(file);
+      const fileUrl = await fileRef.getDownloadURL();
+      setUrl(fileUrl);
+    } catch (error) {
+      console.log(`error!!`, error);
+    }
+    
+  }
+
+
   const marginBottom = {
         marginBottom:20
  };
@@ -40,38 +61,58 @@ function RegistrationForm() {
             initialValues={{
               name: '', email: '', department: ''
             }}
-              validationSchema={Yup.object({
-                name: Yup.string().required('Required'),
-                email: Yup.string().email('Invalid email address').required('Required'),
-                department: Yup.string(),
-              })}
+            validationSchema={Yup.object({
+              name: Yup.string().required('Required'),
+              email: Yup.string().email('Invalid email address').required('Required'),
+              department: Yup.string(),
+            })}
 
-              onSubmit={(values) => {
-                SetButtonText("Submitting ...")
-                let formData = new FormData();
-                // console.log('values', values);
-                formData.append("file", file[0]);
-                formData.append("name", values.name);
-                formData.append("email", values.email);
-                formData.append("department", values.department);
-                formData.append("semester", semester);
+            // onSubmit={(values) => {
+            //   SetButtonText("Submitting ...")
+            //   let formData = new FormData();
+            //   // console.log('values', values);
+            //   formData.append("file", file[0]);
+            //   formData.append("name", values.name);
+            //   formData.append("email", values.email);
+            //   formData.append("department", values.department);
+            //   formData.append("semester", semester);
 
-                // console.log('formData.get())',formData.get('semester'));
-                axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
-                  {
-                    headers: {
-                  'Content-Type': 'multipart/form-data',
-                }}
-                ).then(res => {
-                  console.log(res.data);
-                  if (res)
-                  {
-                    SetButtonText('submitted!!');
-                  }
-                  history.go('/status');
-                });
-              }
-              }
+            //   // console.log('formData.get())',formData.get('semester'));
+            //   axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
+            //     {
+            //       headers: {
+            //     'Content-Type': 'multipart/form-data',
+            //   }}
+            //   ).then(res => {
+            //     console.log(res.data);
+            //     if (res)
+            //     {
+            //       SetButtonText('submitted!!');
+            //     }
+            //     history.go('/status');
+            //   });
+            // }
+            // }
+            onSubmit={async (value) => {
+              SetButtonText("Submitting ...");
+             try {
+               handleFile();
+               console.log(value);
+               let form = {
+                 name: value.name,
+                 email: value.email,
+                 department: value.department,
+                 semester: semester,
+                 fileUrl: fileUrl
+               }
+               let data = await axios.post(`http://localhost:8000/student/uploadForm/${localStorage.userId}`, form);
+               console.log(data);
+               SetButtonText('submitted!!');
+             } catch (error) {
+               console.log(error);
+             }
+
+            }}
           >
             {(formik) => (
               <Form>
@@ -121,7 +162,7 @@ function RegistrationForm() {
                  <input
                     
                     style={{display:'none'}}
-                    onChange={(event) => setFile(event.target.files)     }
+                    onChange={(e)=>setFile(e.target.files)}
                     id="contained-button-file"
                     multiple
                     type="file"
