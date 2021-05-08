@@ -15,26 +15,33 @@ export default function PendingReg() {
   
   const [user, setUser] = useState('');
 
-
-  useEffect(() => {
+  const handleUser = () => {
     axios.get('/allReg')
       .then(data => {
         console.log(data.data.reg)
         setUser(data.data.reg);
-      })
-  }, [user]);
+      });
+  }
+
+  useEffect(() => {
+    handleUser();
+  }, []);
 
   const handleVerified = (formId) => {
     console.log(formId)
     axios.post(`/student/status?id=${formId}&value=verified`)
       .then(res => {
-       
+        handleUser();
       })
   }
   const handleRejected = (formId) => {
     console.log(formId)
     axios.post(`/student/status?id=${formId}&value=rejected`)
-    .then(res => console.log(res))
+      .then(res => {
+        console.log(res)
+        handleUser();
+      })
+    return;
   }
 
 
@@ -53,7 +60,7 @@ export default function PendingReg() {
     {
       field: 'file', headerName: 'Form', width: 130,filterable: false,
       renderCell: (params) => (
-        <a target='_blank' href={params.value} rel="noopener noreferrer" >Your Text</a>
+        <a target='_blank' href={params.value} rel="noopener noreferrer" >Form</a>
         // <Link to={params.value}>{params.value} </Link>
       )
     },

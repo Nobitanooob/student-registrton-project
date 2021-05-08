@@ -64,13 +64,14 @@ export default function SimplePopover(props) {
               {forms.length !== 0 &&
                   <List>
                   {
-                      forms.map((form ,index) => {
+            forms.map((form, index) => {
+              // console.log('form.file', form.file);
                         return <ListItem key={index}>
                             <ListItemText primary={`Semester  ${form.semester} `} />
-                            <ListItemLink href={form.file}>
+                            <ListItemLink >
                                 <ListItemSecondaryAction>
                                     <IconButton edge="end" aria-label="file">
-                                        <DescriptionIcon />
+                                <a href={form.file} target= "_blank"><DescriptionIcon /></a>
                                     </IconButton>
                                 </ListItemSecondaryAction>
                           </ListItemLink>

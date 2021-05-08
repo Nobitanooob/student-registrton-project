@@ -42,7 +42,7 @@ import * as Yup from 'yup';
                 confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Passwords do not match').required('Required'),
               })}
 
-              onSubmit={(values) => {
+              onSubmit={(values,{resetForm}) => {
                 SetButtonText("Submitting ...");
                 console.log(values);
                 console.log(department);
@@ -63,6 +63,7 @@ import * as Yup from 'yup';
                   console.log(res.data);
                   // to done later add redirect route
                   SetButtonText('Submitted!!');
+                  resetForm();
                 });
               }
               }

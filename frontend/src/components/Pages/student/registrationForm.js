@@ -25,8 +25,6 @@ function RegistrationForm() {
 
 
   const handleFile = async (e) => {
-    // setFile(e.target.files);
-
     try {
       let file = uploadedFile[0];
       const storageRef = firebase.storage().ref();
