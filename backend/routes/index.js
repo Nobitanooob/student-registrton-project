@@ -3,6 +3,9 @@ const passport = require('passport');
 const Reg_Form = require('../models/registration_form');
 const User = require('../models/User');
 const router = express.Router();
+const {OAuth2Client} =require('google-auth-library');
+
+const client=new OAuth2Client("13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com");
 
 router.use('/create-student', require('./createStudents'));
 
@@ -40,7 +43,46 @@ router.route('/users').get(async (req, res) => {
             error
         });
     }
-})
+});
+router.post('/googleLogin',(req,res)=>{
+    const {tokenId}=req.body;
+    client.verifyIdToken({idToken:tokenId,audience:"13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com"}).then(res=>{
+        const {email_verified,name,email}=res.payload;
+        User.findOne({email}).exec((err,user)=>{
+            if(err){
+                return res.status(400).json({
+                    error:"Something went wrong.."
+                })
+            }else{
+                if(user){
+                    const {_id,name,email}=user;
+                    res.json({
+                        message: 'user found!!',
+                        user:{_id,name,email}
+                    })
+                }else{
+                    //password feld not set
+                    let password='';
+                    let newUser=new User({name,email,password});
+                    newUser.save((err,data)=>{
+                        if(err){
+                            return res.status(400).json({
+                                error:"Something went wrong.."
+                            })
+                        };
+                        const token={_id:data._id};
+                        const {_id,name,email}=user;
+                        res.json({
+                            token,
+                            message: 'user found!!',
+                            user:{_id,name,email}
+                        })
+                    })
+                }
+            }
+        })
+    })
+});
 
 //login
 router.post('/', function (req, res, next) {
@@ -118,6 +160,8 @@ router.post('/changePassword/:id', passport.checkAuthentication, async(req, res)
 
 router.route('/download/:path').get(async (req, res) => {
     return res.sendFile(req.params.path);
-})
+});
+
+
 
 module.exports = router;

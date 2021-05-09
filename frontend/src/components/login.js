@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
  import { Formik, Field,Form, ErrorMessage } from 'formik';
+ import { GoogleLogin } from 'react-google-login';
+
  import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -68,7 +70,20 @@ function Copyright() {
     message: "",
     id: "",
   });
-  
+  const responseSuccessGoogle=(res)=>{
+    console.log(res);
+    axios({
+      method:"POST",
+      url:'http://localhost:8000/googleLogin',
+      data:{tokenId:res.tokenId}
+  }).then(res=>{
+    console.log("token login success " ,res);
+  })
+  .catch(e=>console.log(e));
+};
+  const responseErrorGoogle=(res)=>{
+
+  };
    
    return (
 <Grid  container component="main" className={classes.root}>
@@ -190,6 +205,13 @@ function Copyright() {
                             className={classes.submit} >
                             Submit
                         </Button>
+                        <GoogleLogin
+                              clientId="13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com"
+                              buttonText="Login With Google"
+                              onSuccess={responseSuccessGoogle}
+                              onFailure={responseErrorGoogle}
+                              cookiePolicy={'single_host_origin'}
+                            />
                         <Box mt={5}>
                             <Copyright />
                         </Box>
@@ -199,5 +221,6 @@ function Copyright() {
       </Grid>
 </Grid>
 );
-}
+};
+
 export default Login;
