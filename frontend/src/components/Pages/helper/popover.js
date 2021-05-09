@@ -71,7 +71,7 @@ export default function SimplePopover(props) {
                             <ListItemLink >
                                 <ListItemSecondaryAction>
                                     <IconButton edge="end" aria-label="file">
-                                <a href={form.file} target= "_blank"><DescriptionIcon /></a>
+                                <a href={form.file} target= "_blank" rel="noreferrer" ><DescriptionIcon /></a>
                                     </IconButton>
                                 </ListItemSecondaryAction>
                           </ListItemLink>

@@ -46,41 +46,72 @@ router.route('/users').get(async (req, res) => {
 });
 router.post('/googleLogin',(req,res)=>{
     const {tokenId}=req.body;
-    client.verifyIdToken({idToken:tokenId,audience:"13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com"}).then(res=>{
-        const {email_verified,name,email}=res.payload;
-        User.findOne({email}).exec((err,user)=>{
-            if(err){
-                return res.status(400).json({
-                    error:"Something went wrong.."
-                })
-            }else{
-                if(user){
-                    const {_id,name,email}=user;
-                    res.json({
-                        message: 'user found!!',
-                        user:{_id,name,email}
-                    })
-                }else{
-                    //password feld not set
-                    let password='';
-                    let newUser=new User({name,email,password});
-                    newUser.save((err,data)=>{
-                        if(err){
-                            return res.status(400).json({
-                                error:"Something went wrong.."
-                            })
-                        };
-                        const token={_id:data._id};
-                        const {_id,name,email}=user;
-                        res.json({
-                            token,
-                            message: 'user found!!',
-                            user:{_id,name,email}
-                        })
-                    })
-                }
+     client.verifyIdToken({
+        idToken: tokenId,
+        audience: "13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com"
+    }).then(async (response) => {
+        console.log(response.payload);
+        const { email_verified, name, email } = response.payload;
+        try {
+            if (!email_verified)
+            {
+                return res.status(401).json({
+                    message: 'user not authorized!!',
+                    valid: false,
+                    id: null,
+                    type: null
+                });
             }
-        })
+            let user = await User.findOne({ email });
+            console.log(user);
+
+            return res.json({
+                message: 'login success',
+                valid:true,
+                id: user._id,
+                type: user.type
+            });
+        } catch (error) {
+            return res.status(401).json({
+                message: 'user not authorized!!',
+                valid: false,
+                id: null,
+                type: null
+            });
+        }
+    //    .exec((err,user)=>{
+        //     if(err){
+        //         return res.status(400).json({
+        //             error:"Something went wrong.."
+        //         })
+        //     }else{
+        //         if(user){
+        //             const {_id,name,email}=user;
+        //             res.json({
+        //                 message: 'user found!!',
+        //                 user:{_id,name,email}
+        //             })
+        //         }else{
+        //             //password feld not set
+        //             let password='';
+        //             let newUser=new User({name,email,password});
+        //             newUser.save((err,data)=>{
+        //                 if(err){
+        //                     return res.status(400).json({
+        //                         error:"Something went wrong.."
+        //                     })
+        //                 };
+        //                 const token={_id:data._id};
+        //                 const {_id,name,email}=user;
+        //                 res.json({
+        //                     token,
+        //                     message: 'user found!!',
+        //                     user:{_id,name,email}
+        //                 })
+        //             })
+        //         }
+        //     }
+        // })
     })
 });
 

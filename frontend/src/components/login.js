@@ -58,8 +58,12 @@ function Copyright() {
       margin: theme.spacing(3, 0, 2),
     },
   }));
-  const Login = (props) => {
-  const classes = useStyles();
+
+
+const Login = (props) => {
+    
+    const classes = useStyles();
+    
   const checkBoxStyle={
     margin:20,
     fontSize:'1.5rem'
@@ -70,17 +74,35 @@ function Copyright() {
     message: "",
     id: "",
   });
-  const responseSuccessGoogle=(res)=>{
-    console.log(res);
-    axios({
-      method:"POST",
-      url:'http://localhost:8000/googleLogin',
-      data:{tokenId:res.tokenId}
-  }).then(res=>{
-    console.log("token login success " ,res);
-  })
-  .catch(e=>console.log(e));
-};
+    
+  const responseSuccessGoogle = (res) => {
+      console.log(res);
+      axios({
+        method: "POST",
+        url: 'http://localhost:8000/googleLogin',
+        data: { tokenId: res.tokenId }
+      }).then((respond) => {
+        console.log(respond)
+        setResponse({
+          ...response,
+          id: respond.data.id,
+          valid: respond.data.valid,
+          message: respond.data.message,
+        });
+        return respond;
+      })
+        .then((respond) => {
+          if (respond.data.valid) {
+            localStorage.setItem("userId", respond.data.id);
+            localStorage.setItem("userType", respond.data.type);
+            props.handleUser(respond.data.id);
+            props.handleIsStudent((respond.type === 'student') ? true : false);
+            props.handleIsLogin(respond.data.valid);
+            return respond;
+          }
+        })
+        .catch((err) => { console.log(err) });
+    };
   const responseErrorGoogle=(res)=>{
 
   };
@@ -211,7 +233,7 @@ function Copyright() {
                               onSuccess={responseSuccessGoogle}
                               onFailure={responseErrorGoogle}
                               cookiePolicy={'single_host_origin'}
-                            />
+                          />
                         <Box mt={5}>
                             <Copyright />
                         </Box>
