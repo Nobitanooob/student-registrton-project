@@ -34,10 +34,10 @@ export default function SearchUser() {
     else
     {
       
-      filter === 'name' && setItems(user.filter(x => x.name.includes(target.value.toLowerCase())))
-      filter === 'email' && setItems(user.filter(x => x.email.includes(target.value.toLowerCase())))
-      filter === 'department' && setItems(user.filter(x => x.department.includes(target.value.toLowerCase())))
-      filter === 'type' && setItems(user.filter(x => x.type.includes(target.value.toLowerCase())))
+      filter === 'name' && setItems(user.filter(x => x.name.toString().toLowerCase().includes(target.value.toString().toLowerCase())))
+      filter === 'email' && setItems(user.filter(x => x.email.toString().toLowerCase().includes(target.value.toLowerCase())))
+      filter === 'department' && setItems(user.filter(x => x.department.toString().toLowerCase().includes(target.value.toLowerCase())))
+      filter === 'type' && setItems(user.filter(x => x.type.toString().toLowerCase().includes(target.value.toLowerCase())))
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Grid,Paper } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { Formik, ErrorMessage, Form, Field } from 'formik';
@@ -16,13 +16,20 @@ import firebase from 'firebase';
  
   
 function RegistrationForm() {
-    
+  const [user, setUser] = useState();
   const [uploadedFile, setFile] = useState(null);
   const [fileUrl, setUrl] = useState();
   const [semester, setSemester] = React.useState('');
   const [buttonText,SetButtonText] = useState("Submit")
   const history = useHistory();
 
+  useEffect(() => {
+    axios.get(`/user/${localStorage.userId}`)
+      .then((data) => {
+        // console.log('data', data.data.user);
+        setUser(data.data.user);
+      });
+   }, []);
 
   const handleFile = async (e) => {
     try {
@@ -116,12 +123,19 @@ function RegistrationForm() {
               <Form>
 
                 <label htmlFor="name"></label>
-                <Field as={TextField} style={marginBottom}  name="name" placeholder="name" fullWidth label="name" type="text " />
+                <Field as={TextField} style={marginBottom} name="name"
+                  placeholder="name" fullWidth type="text"
+                  label = "name"
+                  />
                 <ErrorMessage name="name" />
             
                 <label htmlFor="email"></label>
                 <Field as={TextField} style={marginBottom} name="email" placeholder="Email" fullWidth label="Email" type="email" />
                 <ErrorMessage name="email" />
+
+                <label htmlFor="programme"></label>
+                <Field as={TextField} style={marginBottom}  name="programme" placeholder="programme" fullWidth label="Programme" type="text" />
+                <ErrorMessage name="programme" />
             
                 <label htmlFor="department"></label>
                 <Field as={TextField} style={marginBottom}  name="department" placeholder="department" fullWidth label="department" type="text" />
@@ -129,8 +143,7 @@ function RegistrationForm() {
                
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
                   <InputLabel htmlFor="semester" id="demo-simple-select-label">Semester</InputLabel>
-                  <Select
-                   
+                  <Select 
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
                     name = "semester"
@@ -158,19 +171,17 @@ function RegistrationForm() {
                   </Select>
                 </FormControl>
                  <input
-                    
                     style={{display:'none'}}
                     onChange={(e)=>setFile(e.target.files)}
                     id="contained-button-file"
                     multiple
                     type="file"
-                  />
+                />
                   <label htmlFor="contained-button-file">
                     <Button startIcon={<CloudUploadIcon />} style={marginBottom} variant="contained" color="primary" component="span">
                       Upload
                     </Button>
-                  </label>
-
+                </label>
                   <Button
                     type="submit"
                     style={marginBottom}

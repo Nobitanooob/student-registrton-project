@@ -52,13 +52,13 @@ export default function PendingReg() {
   }
 
   const columns = [
-    { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'email', headerName: 'Email', width: 130 },
+    { field: 'name', headerName: 'Name', width: 100 },
+    { field: 'email', headerName: 'Email', width: 150 },
     { field: 'department', headerName: 'Department', width: 130},
     { field: 'type', headerName: 'User Type', width: 130 },
     { field: 'status', headerName: 'Verification Status',hide: true },
     {
-      field: 'file', headerName: 'Form', width: 130,filterable: false,
+      field: 'file', headerName: 'Form', width: 100,filterable: false,
       renderCell: (params) => (
         <a target='_blank' href={params.value} rel="noopener noreferrer" >Form</a>
         // <Link to={params.value}>{params.value} </Link>
