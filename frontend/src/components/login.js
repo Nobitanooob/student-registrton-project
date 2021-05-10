@@ -15,9 +15,10 @@ import { makeStyles } from '@material-ui/core/styles';
  import { GoogleLogin } from 'react-google-login';
  import * as Yup from 'yup';
 import axios from 'axios';
-import {toast} from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css';
-toast.configure()
+// import {toast} from 'react-toastify'; 
+// import 'react-toastify/dist/ReactToastify.css';
+import Notification from './toasts';
+// toast.configure()
 
 function Copyright() {
     return (
@@ -149,27 +150,8 @@ const Login = (props) => {
       })
       .then((respond)=>{
         console.log(respond);
-          if(respond.data.valid){
-        toast.success(respond.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-      }else{
-        toast.error(respond.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-      };
+        respond.data.valid && Notification("success", respond.data.message);
+        !respond.data.valid && Notification("fail", respond.data.message);
       })
       .catch((err) => { console.log(err) });
     };
