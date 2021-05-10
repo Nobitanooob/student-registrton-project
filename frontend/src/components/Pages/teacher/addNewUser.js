@@ -10,6 +10,9 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
 
+import {toast} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 
   
  const AddNewUser = () => {
@@ -43,6 +46,7 @@ import * as Yup from 'yup';
               })}
 
               onSubmit={(values,{resetForm}) => {
+
                 SetButtonText("Submitting ...");
                 console.log(values);
                 console.log(department);
@@ -60,8 +64,30 @@ import * as Yup from 'yup';
                 }
                 axios.post(`/create-student`,user )
                 .then(res => {
-                  console.log(res.data);
+                  console.log(res);
+                  if(res.data.error){
+                    toast.error(res.data.message, {
+                      position: "top-right",
+                      autoClose: 3000,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                    })
+                  }else{
+                    toast.success(res.data.message, {
+                      position: "top-right",
+                      autoClose: 3000,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                    })
+                  }
                   // to done later add redirect route
+
                   SetButtonText('Submitted!!');
                   resetForm();
                 });
@@ -71,7 +97,7 @@ import * as Yup from 'yup';
             
             
           >
-            {(formik) => (
+            {(p) => (
               <Form>
 
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
@@ -94,12 +120,26 @@ import * as Yup from 'yup';
                 </FormControl>
 
                 <label htmlFor="name"></label>
-                <Field as={TextField} style={marginBottom}  name="name" placeholder="name" fullWidth label="name" type="text " />
-                <ErrorMessage name="name" />
+                <Field as={TextField} 
+                style={marginBottom}
+                  name="name" 
+                  placeholder="name" 
+                  fullWidth
+                   label="name" 
+                   error={p.errors.name&&p.touched.name}
+                   helperText={<ErrorMessage   name="name" />}
+                   type="text " />
             
                 <label htmlFor="email"></label>
-                <Field as={TextField} style={marginBottom} name="email" placeholder="Email" fullWidth label="Email" type="email" />
-                <ErrorMessage name="email" />
+                <Field as={TextField} 
+                style={marginBottom}
+                 name="email" 
+                 placeholder="Email"
+                  fullWidth
+                   label="Email"
+                   error={p.errors.email&&p.touched.email}
+                   helperText={<ErrorMessage   name="email" />}
+                    type="email" />
 
                 {usertype === 'student' && <div>
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
@@ -225,11 +265,22 @@ import * as Yup from 'yup';
                   </FormControl>
                 }
                 </div>}
-                <Field as={TextField} style={marginBottom}  name="password" placeholder="Enter Password" fullWidth label="Password" type="text" />
-                <ErrorMessage name="password" />
+                <Field as={TextField} 
+                style={marginBottom}
+                  name="password"
+                 placeholder="Enter Password"
+                 fullWidth label="Password" 
+                 error={p.errors.password&&p.touched.password}
+                   helperText={<ErrorMessage   name="password" />}
+                 type="text" />
 
-                <Field as={TextField} style={marginBottom}  name="confirm_password" placeholder="Enter Password Again" fullWidth label="Confirm Password" type="text" />
-                <ErrorMessage name="confirm_password" />
+                <Field as={TextField}
+                 style={marginBottom} 
+                 name="confirm_password"
+                 placeholder="Enter Password Again" fullWidth label="Confirm Password" 
+                 error={p.errors.confirm_password&&p.touched.confirm_password}
+                   helperText={<ErrorMessage   name="confirm_password" />}
+                 type="text" />
 
                   <Button
                     type="submit"
