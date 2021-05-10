@@ -18,6 +18,7 @@ import axios from 'axios';
 // import {toast} from 'react-toastify'; 
 // import 'react-toastify/dist/ReactToastify.css';
 import Notification from './toasts';
+import notification from './toasts';
 // toast.configure()
 
 function Copyright() {
@@ -98,9 +99,12 @@ const Login = (props) => {
             props.handleUser(respond.data.id);
             props.handleIsStudent((respond.type === 'student') ? true : false);
             props.handleIsLogin(respond.data.valid);
-            
-            return respond;
           }
+          return respond;
+        })
+        .then((respond) => {
+          respond.data.valid && Notification("success", respond.data.message);
+          !respond.data.valid && Notification("fail", respond.data.message);
         })
         .catch((err) => { console.log(err) });
     };

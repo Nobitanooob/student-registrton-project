@@ -72,7 +72,7 @@ router.post('/googleLogin',(req,res)=>{
                 type: user.type
             });
         } catch (error) {
-            return res.status(401).json({
+            return res.json({
                 message: 'user not authorized!!',
                 valid: false,
                 id: null,
