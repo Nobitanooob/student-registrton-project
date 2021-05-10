@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {SidebarStudentData} from './SidebarStudentData';
 import {SidebarTeacherData} from './SidebarTeacherData';
 import { Link } from 'react-router-dom';
@@ -31,7 +31,7 @@ import changePassword from '../Pages/changePassword';
 import AddNewUser from '../Pages/teacher/addNewUser';
 import PendingRegistration from '../Pages/teacher/pendingRegistration';
 import SearchUser from '../Pages/teacher/searchUser';
-
+import axios from 'axios';
 import {toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
@@ -79,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar=(props)=> {
+  const [userData,setUserData]=useState({});
     const { windows } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -87,7 +88,14 @@ const Navbar=(props)=> {
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
-   
+    useEffect(() => {
+      // getting user details by api call
+      axios.get(`http://localhost:8000/user/${localStorage.getItem('userId')}`)
+        .then((data) => {
+          console.log(data.data.user);
+          setUserData(data.data.user);
+        });
+    },[]);
 	
 	const handleSignout = () => {
     
@@ -109,8 +117,17 @@ const Navbar=(props)=> {
 	{
         const drawer = (
             <div>
-              <div className={classes.toolbar} />
+              <div style={{display:"flex",flexDirection:'column',alignItems:'center'}}>
+                <h1 style={{margin:0,padding:0,textTransform:"uppercase"}}>{userData.name}</h1>
+                <small style={{color:"darkgray"}}>{userData.email}</small>
+              </div>
+                
+              
+                
+              <div className={classes.toolbar} style={{position:"absolute"}}/>
+              
               <Divider />
+              
               <List>
                 {SidebarStudentData.map((item, index) => (
                   <ListItem button component={Link}
@@ -127,6 +144,7 @@ const Navbar=(props)=> {
         
           const container = windows!== undefined ? () => windows().document.body : undefined;
           return (
+            <>
             <div className={classes.root}>
               <CssBaseline />
               <AppBar position="fixed" className={classes.appBar}>
@@ -195,15 +213,21 @@ const Navbar=(props)=> {
                         
               </main>
             </div>
-            
+            </>
           );	
 	}
 	else
 	{
 
 		const drawer = (
+      
             <div>
-              <div className={classes.toolbar} />
+                
+                <div style={{display:"flex",flexDirection:'column',alignItems:'center'}}>
+                  <h1 style={{margin:0,padding:0,textTransform:"uppercase"}}>{userData.name}</h1>
+                  <small style={{color:"darkgray"}}>{userData.email}</small>
+                </div>
+              <div className={classes.toolbar} style={{position:"absolute"}} />
               <Divider />
               <List>
                 {SidebarTeacherData.map((item, index) => (
@@ -221,6 +245,7 @@ const Navbar=(props)=> {
         
           const container = windows !== undefined ? () => windows().document.body : undefined;
           return (
+            <>
             <div className={classes.root}>
               
               <CssBaseline />
@@ -290,7 +315,7 @@ const Navbar=(props)=> {
                         
               </main>
             </div>
-            
+            </>
           );	
 	}
 };
