@@ -98,7 +98,7 @@ const Navbar=(props)=> {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-    })
+    });
 		localStorage.removeItem('userId');
 		localStorage.removeItem('userType');
 		// reload the window after logout to return to app begin
