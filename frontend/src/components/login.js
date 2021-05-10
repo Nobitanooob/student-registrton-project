@@ -13,9 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
  import { Formik, Field,Form, ErrorMessage } from 'formik';
  import { GoogleLogin } from 'react-google-login';
-
  import * as Yup from 'yup';
 import axios from 'axios';
+import {toast} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
 function Copyright() {
     return (
@@ -61,14 +63,13 @@ function Copyright() {
 
 
 const Login = (props) => {
-    
+
     const classes = useStyles();
     
   const checkBoxStyle={
     margin:20,
     fontSize:'1.5rem'
   };
-  
   const [response, setResponse] = useState({
     valid: "",
     message: "",
@@ -76,13 +77,11 @@ const Login = (props) => {
   });
     
   const responseSuccessGoogle = (res) => {
-      console.log(res);
       axios({
         method: "POST",
         url: 'http://localhost:8000/googleLogin',
         data: { tokenId: res.tokenId }
       }).then((respond) => {
-        console.log(respond)
         setResponse({
           ...response,
           id: respond.data.id,
@@ -98,17 +97,89 @@ const Login = (props) => {
             props.handleUser(respond.data.id);
             props.handleIsStudent((respond.type === 'student') ? true : false);
             props.handleIsLogin(respond.data.valid);
+            
             return respond;
           }
         })
         .catch((err) => { console.log(err) });
     };
   const responseErrorGoogle=(res)=>{
-
+    console.log('error');
   };
-   
-   return (
+  const validationSchema=Yup.object({
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string()
+      .min(1, 'Password Must be four characters long!')  //to increase limit later
+      .max(20, 'Too Long!').required('Required'),
+      type: Yup.string().required('Required')
+  });
+  const initialValues={
+    email: '',
+     password: '',
+    type: 'student'
+  };
+  const onSubmit=(values)=>{
+      
+    const user = {
+      email: values.email,
+      password: values.password,
+      type: values.type
+      };
+      axios.post('http://localhost:8000/', user)
+      .then((respond) => {
+          setResponse({
+          ...response,
+          id: respond.data.id,
+          valid: respond.data.valid,
+          message: respond.data.message,
+          });
+          return respond;
+      })
+      .then((respond) => {
+        
+          if (respond.data.valid) {
+          localStorage.setItem("userId", respond.data.id);
+        localStorage.setItem("userType", user.type);
+          props.handleUser(respond.data.id);
+          props.handleIsStudent((user.type === 'student') ? true : false);
+          props.handleIsLogin(respond.data.valid);
+          return respond;
+          }
+          return respond;
+      })
+      .then((respond)=>{
+        console.log(respond);
+          if(respond.data.valid){
+        toast.success(respond.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }else{
+        toast.error(respond.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      };
+      })
+      .catch((err) => { console.log(err) });
+    };
+    
+     
+   return  (
+     
+       
 <Grid  container component="main" className={classes.root}>
+ 
          <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid style={{ background:'#dcdcdc'}} item xs={12} sm={8} md={5} component={Paper} elevation={6} >
@@ -120,69 +191,38 @@ const Login = (props) => {
                     Sign in
                 </Typography>
                 <Formik
-                    initialValues={{ email: '', password: '', type: 'student' }}
-                    validationSchema={Yup.object({
-                        email: Yup.string().email('Invalid email address').required('Required'),
-                        password: Yup.string()
-                        .min(1, 'Password Must be four characters long!')  //to increase limit later
-                        .max(20, 'Too Long!').required('Required'),
-                        type: Yup.string().required('Required')
-                    })}
-                     onSubmit={(values) => {
-                        const user = {
-                        email: values.email,
-                        password: values.password,
-                        type: values.type
-                        };
-                        axios.post('http://localhost:8000/', user)
-                        .then((respond) => {
-                            console.log(respond)
-                            setResponse({
-                            ...response,
-                            id: respond.data.id,
-                            valid: respond.data.valid,
-                            message: respond.data.message,
-                            });
-                            return respond;
-                        })
-                        .then((respond) => {
-                            if (respond.data.valid) {
-                            localStorage.setItem("userId", respond.data.id);
-                          localStorage.setItem("userType", user.type);
-                            props.handleUser(respond.data.id);
-                            props.handleIsStudent((user.type === 'student') ? true : false);
-                            props.handleIsLogin(respond.data.valid);
-                            return respond;
-                            }
-                        })
-                        .catch((err) => { console.log(err) });
-                        }}
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                     onSubmit={onSubmit}
                     >
+                     { (p)=>(
                     <Form className={classes.form} >
+                      
                         <label htmlFor="email"></label>
+                       
                         <Field as={TextField}
                             variant="outlined"
                             margin="normal"
-                            required
                             fullWidth
                             label="Email"
                             type="email"
                             name="email"
                             autoComplete="email"
+                            error={p.errors.email&&p.touched.email}
+                            helperText={<ErrorMessage   name="email" />}
                             autoFocus />
-                        <ErrorMessage name="email" />
                 
                         <label htmlFor="password"></label>
                         <Field as={TextField}
                             variant="outlined"
                             margin="normal"
-                            required
                             fullWidth
                             name="password"
                             label="Password"
                             type="password"
+                            error={p.errors.password&&p.touched.password}
+                            helperText={<ErrorMessage   name="password" />}
                             autoComplete="Enter password" />
-                        <ErrorMessage name="password" />
                             
                         <Field
                         as={FormControlLabel}
@@ -219,6 +259,8 @@ const Login = (props) => {
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
+                        
+                        
                         <Button
                             type="submit"
                             fullWidth
@@ -238,11 +280,14 @@ const Login = (props) => {
                             <Copyright />
                         </Box>
                     </Form>
+                     )}
                 </Formik>          
         </div>
       </Grid>
+ 
 </Grid>
-);
+   );
+
 };
 
 export default Login;

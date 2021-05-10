@@ -32,6 +32,12 @@ import AddNewUser from '../Pages/teacher/addNewUser';
 import PendingRegistration from '../Pages/teacher/pendingRegistration';
 import SearchUser from '../Pages/teacher/searchUser';
 
+import {toast} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
+
+
+
 
 const drawerWidth = 240;
 
@@ -84,6 +90,15 @@ const Navbar=(props)=> {
    
 	
 	const handleSignout = () => {
+    toast.error("Logout Successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
 		localStorage.removeItem('userId');
 		localStorage.removeItem('userType');
 		// reload the window after logout to return to app begin
@@ -171,7 +186,7 @@ const Navbar=(props)=> {
                   
                 <div className={classes.toolbar} />
 
-            
+                
                   
                         <Route path='/' exact  component={RegistrationForm} />
                         <Route path='/changePassword' exact  component={changePassword} />
@@ -207,6 +222,7 @@ const Navbar=(props)=> {
           const container = windows !== undefined ? () => windows().document.body : undefined;
           return (
             <div className={classes.root}>
+              
               <CssBaseline />
               <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
