@@ -27,6 +27,10 @@ const userschema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    rollno: {
+        type: String,
+        required: true,
+    },
     forms: [{
         type: mongoose.Schema.Types.ObjectId,
         ref : 'Reg_Form'

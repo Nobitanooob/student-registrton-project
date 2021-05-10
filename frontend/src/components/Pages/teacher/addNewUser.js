@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Grid,Paper } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { Formik, ErrorMessage, Form, Field } from 'formik';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -21,7 +21,7 @@ toast.configure();
    const [program, setProgram] = useState('teacher');
    const [department, setDepartment] = useState('teacher');
    const [usertype, setType] = useState('teacher');
-   const history = useHistory();
+  //  const history = useHistory();
    
   const marginBottom = {
         marginBottom:20
@@ -37,10 +37,10 @@ toast.configure();
       <Grid>
         <Paper elevation={10} style={paperStyle} >
               <Formik
-              initialValues={{ name: '', email: '' ,confirm_password: '',password: ''}}
+              initialValues={{ name: '', email: '' ,confirm_password: '',password: '',rollno : ''}}
             validationSchema={Yup.object({
                 name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Required'),
-                email: Yup.string().email('Invalid email address').required('Please Enter Email'),
+               email: Yup.string().email('Invalid email address').required('Please Enter Email'), 
                 password: Yup.string().min(1).max(20).required('please enter passsword'),
                 confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Passwords do not match').required('Required'),
               })}
@@ -52,14 +52,18 @@ toast.configure();
                 console.log(department);
                 console.log(usertype);
                 console.log(program);
-
+                if (values.rollno === '')
+                {
+                  values.rollno = 'NIL'
+                }
                 let user = {
                   name: values.name,
                   email: values.email,
                   confirm_password: values.confirm_password,
                   password: values.password,
                   department: department,
-                  type : usertype,
+                  type: usertype,
+                  rollno: values.rollno,
                   programme: program
                 }
                 axios.post(`/create-student`,user )
@@ -88,7 +92,7 @@ toast.configure();
                   }
                   // to done later add redirect route
 
-                  SetButtonText('Submitted!!');
+                  SetButtonText('Submit');
                   resetForm();
                 });
               }
@@ -139,9 +143,20 @@ toast.configure();
                    label="Email"
                    error={p.errors.email&&p.touched.email}
                    helperText={<ErrorMessage   name="email" />}
-                    type="email" />
+                  type="email" />
 
                 {usertype === 'student' && <div>
+               
+                  <label htmlFor="rollno"></label>
+                <Field as={TextField} 
+                style={marginBottom}
+                  name= "rollno" 
+                  placeholder= "Roll No" 
+                  fullWidth
+                   label="Roll No" 
+                   error={p.errors.name && p.touched.rollno}
+                   helperText={<ErrorMessage   name="name" />}
+                   type="text " />
                 <FormControl fullWidth variant="outlined" style={marginBottom}>
                   <InputLabel component='label' htmlFor="type">Programme</InputLabel>
                   <Select

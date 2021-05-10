@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DescriptionIcon from '@material-ui/icons/Description';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     typography: {
@@ -40,7 +41,7 @@ export default function SimplePopover(props) {
 
   return (
       <div>
-      <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
+      <Button aria-describedby={id} variant="contained" color="secondary" onClick={handleClick}>
         Forms
       </Button>
       <Popover

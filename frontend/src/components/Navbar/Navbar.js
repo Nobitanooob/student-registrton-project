@@ -7,15 +7,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
+import {Drawer,Hidden,IconButton,List,ListItem,ListItemText,ListItemIcon,Toolbar,Avatar} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -116,11 +109,29 @@ const Navbar=(props)=> {
 	if (props.isStudent)
 	{
         const drawer = (
+            
+          <div>
+                
+          <div style={{
+            display: "flex",
+            flexDirection: 'row', alignItems: 'center', height: 100, justifyContent: 'space-around'
+          }}>
+            <Avatar
+              style={{
+                width: theme.spacing(7),
+                height: theme.spacing(7),
+                backgroundColor: '#3f51b5',
+                textTransform: "uppercase"
+              }}>
+              {userData.name && userData.name.charAt(0)}
+              </Avatar>
             <div>
-              <div style={{display:"flex",flexDirection:'column',alignItems:'center'}}>
-                <h1 style={{margin:0,padding:0,textTransform:"uppercase"}}>{userData.name}</h1>
-                <small style={{color:"darkgray"}}>{userData.email}</small>
-              </div>
+              <h1 style={{
+                margin: 0, padding: 0, textTransform: "uppercase", fontFamily: 'emoji'
+                  }}>{userData.name}</h1>
+                    <small style={{color:"darkgray"}}>{userData.email}</small>
+            </div>
+            </div>
                 
               
                 
@@ -132,7 +143,7 @@ const Navbar=(props)=> {
                 {SidebarStudentData.map((item, index) => (
                   <ListItem button component={Link}
                     key={index}
-                    to={item.path} >
+                    to={item.path} style={{marginTop : 10}}>
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={item.title} />
                  </ListItem>
@@ -223,17 +234,33 @@ const Navbar=(props)=> {
       
             <div>
                 
-                <div style={{display:"flex",flexDirection:'column',alignItems:'center'}}>
-                  <h1 style={{margin:0,padding:0,textTransform:"uppercase"}}>{userData.name}</h1>
+        <div style={{
+          display: "flex",
+          flexDirection: 'row', alignItems: 'center', height: 100, justifyContent: 'space-around'
+        }}>
+          <Avatar
+            style={{
+              width: theme.spacing(7),
+              height: theme.spacing(7),
+              backgroundColor: '#3f51b5',
+              textTransform: "uppercase"
+            }}>
+            {userData.name && userData.name.charAt(0)}
+            </Avatar>
+          <div>
+            <h1 style={{
+              margin: 0, padding: 0, textTransform: "uppercase", fontFamily: 'emoji'
+                }}>{userData.name}</h1>
                   <small style={{color:"darkgray"}}>{userData.email}</small>
-                </div>
+          </div>
+          </div>
               <div className={classes.toolbar} style={{position:"absolute"}} />
               <Divider />
               <List>
                 {SidebarTeacherData.map((item, index) => (
                   <ListItem button component={Link}
                     key={index}
-                    to={item.path} >
+                    to={item.path} style={{marginTop : 10}}>
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={item.title} />
                  </ListItem>

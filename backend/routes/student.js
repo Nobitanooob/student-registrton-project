@@ -46,14 +46,17 @@ router.route('/uploadForm/:id').post(async (req, res) => {
         user.save();
         console.log('user', user);
         return res.json({
-            message: 'File uploaded!!',
+            message: 'Form submitted Successfully!!',
+            isSubmit: true,
             newForm
         });
 
     } catch (error) {
         console.log(error);
         return res.json({
-            message: 'error in uploading file !!'
+            message: 'error in uploading file !!',
+            isSubmit: false,
+            error
         });
     }
     

@@ -62,7 +62,7 @@ const Status = () => {
                   
                     <Grid container item xs={12} style={{display:"flex",flexDirection:'row'}} spacing={3}>
                       
-                            <Grid item xs={4} >
+                            <Grid item xs={3} >
                             <strong style={{fontSize:"1rem"}}>Email</strong>
                         </Grid>
                         <Grid item xs={2} sm>
@@ -71,8 +71,11 @@ const Status = () => {
                         <Grid item xs={2} sm>
                         <strong style={{fontSize:"1rem"}}>Semester</strong>
                         </Grid>
-                        <Grid item xs={3} sm>
+                        <Grid item xs={2} sm>
                         <strong style={{fontSize:"1rem"}}>Date</strong>
+                    </Grid>
+                    <Grid item xs={2} sm>
+                    <strong style={{fontSize:"1rem"}}>Form</strong>
                         </Grid>
                         <Grid item xs={1} sm>
                         <Typography variant="body2" >
@@ -98,7 +101,7 @@ const Status = () => {
                   
                     <Grid container item xs={12} style={{display:"flex",flexDirection:'row'}} spacing={3}>
                       
-                            <Grid item xs={4} >
+                            <Grid item xs={3} >
                             {form.email}
                         </Grid>
                         <Grid item xs={2} sm>
@@ -107,8 +110,11 @@ const Status = () => {
                         <Grid item xs={2} sm>
                             {form.semester}
                         </Grid>
-                        <Grid item xs={3} sm>
+                        <Grid item xs={2} sm>
                             {form.createdAt.substr(0,10)}
+                          </Grid>
+                          <Grid item xs={2} sm>
+                          {<a href={form.file} target="_blank">Form</a>}
                         </Grid>
                         <Grid item xs={1} sm>
                         <Typography variant="body2" >

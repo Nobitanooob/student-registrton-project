@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
 import firebase from 'firebase';
+import Notification from '../../toasts'
 
 
  
@@ -25,16 +26,18 @@ function RegistrationForm() {
   useEffect(() => {
     axios.get(`/user/${localStorage.userId}`)
       .then((data) => {
-        // console.log('data', data.data.user);
+        console.log('user data', data.data.user);
         setUser(data.data.user);
       });
    }, []);
 
-  const handleFile = async (e) => {
+  const handleFile = async (uploadedFile) => {
     try {
+      
       let file = uploadedFile[0];
       const storageRef = firebase.storage().ref();
-      const fileRef = storageRef.child(file.name);
+      const emailRef = storageRef.child(user.email);
+      const fileRef = emailRef.child(file.name);
       await fileRef.put(file);
       const fileUrl = await fileRef.getDownloadURL();
       setUrl(fileUrl);
@@ -44,34 +47,40 @@ function RegistrationForm() {
     
   };
   const initialValues={
-    name: '', email: '', department: '',programme:""
+    // name: '', email: '', department: '',programme:""
   };
   const validationSchema=Yup.object({
-    name: Yup.string().required('Required'),
-    email: Yup.string().email('Invalid email address').required('Required'),
-    department: Yup.string().required('Required'),
-    programme: Yup.string().required('Required'),
+    // name: Yup.string().required('Required'),
+    // email: Yup.string().email('Invalid email address').required('Required'),
+    // department: Yup.string().required('Required'),
+    // programme: Yup.string().required('Required'),
   });
-  const onSubmit=async (value) => {
+  const onSubmit = async (value, { resetForm }) => {
     SetButtonText("Submitting ...");
-   try {
-     handleFile();
+    try {
+     handleFile(uploadedFile);
      console.log(value);
      let form = {
-       name: value.name,
-       email: value.email,
-       department: value.department,
+       name: user.name,
+       email: user.email,
+       department: user.department,
+       programme: user.programme,
        semester: semester,
        fileUrl: fileUrl
      }
      let data = await axios.post(`http://localhost:8000/student/uploadForm/${localStorage.userId}`, form);
      console.log(data);
 
-     SetButtonText('submitted!!');
+     SetButtonText('submit');
+     setSemester('');
+     resetForm();
+     data.data.isSubmit && Notification('success', data.data.message);
+     !data.data.isSubmit && Notification('fail', data.data.message); 
+     
    } catch (error) {
      console.log(error);
+       Notification('fail', error); 
    }
-
   };
 
 
@@ -81,11 +90,12 @@ function RegistrationForm() {
  const paperStyle={
     padding:20,
     height:'auto',
-    width:300,
+    width: '60vw',
     margin:'20px auto'
   };
   const handleChange = (event) => {
     setSemester(event.target.value);
+    console.log('user', user.email);
   };
   return (
     <div>
@@ -94,45 +104,19 @@ function RegistrationForm() {
               <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-
-            // onSubmit={(values) => {
-            //   SetButtonText("Submitting ...")
-            //   let formData = new FormData();
-            //   // console.log('values', values);
-            //   formData.append("file", file[0]);
-            //   formData.append("name", values.name);
-            //   formData.append("email", values.email);
-            //   formData.append("department", values.department);
-            //   formData.append("semester", semester);
-
-            //   // console.log('formData.get())',formData.get('semester'));
-            //   axios.post(`http://localhost:8000/student/form/${localStorage.userId}`, formData,
-            //     {
-            //       headers: {
-            //     'Content-Type': 'multipart/form-data',
-            //   }}
-            //   ).then(res => {
-            //     console.log(res.data);
-            //     if (res)
-            //     {
-            //       SetButtonText('submitted!!');
-            //     }
-            //     history.go('/status');
-            //   });
-            // }
-            // }
             onSubmit={onSubmit}
           >
             {(p) => (
               <Form>
-                <label htmlFor="name"></label>
+
                 <Field as={TextField} 
                 style={marginBottom}
                  name="name"
                   placeholder="name"
                    fullWidth
                     type="text"
-                  label = "name"
+                  label={user && user.name}
+                  disabled
                   error={p.errors.name&&p.touched.name}
                   helperText={<ErrorMessage   name="name" />}
                   />
@@ -143,7 +127,8 @@ function RegistrationForm() {
                   name="email" 
                   placeholder="Email"
                    fullWidth 
-                   label="Email"
+                  label={user &&user.email}
+                  disabled
                    error={p.errors.email&&p.touched.email}
                   helperText={<ErrorMessage   name="email" />}
                     type="email" />
@@ -155,7 +140,8 @@ function RegistrationForm() {
                  name="programme"
                   placeholder="programme" 
                   fullWidth 
-                  label="Programme" 
+                  label={user && user.programme.toUpperCase()}
+                  disabled 
                   error={p.errors.programme&&p.touched.programme}
                   helperText={<ErrorMessage   name="programme" />}
                   type="text" />
@@ -166,7 +152,8 @@ function RegistrationForm() {
                  name="department"
                   placeholder="department"
                    fullWidth
-                    label="department"
+                   label={user && user.department}
+                   disabled
                     error={p.errors.department&&p.touched.department}
                   helperText={<ErrorMessage   name="department" />}
                      type="text" />
@@ -204,7 +191,6 @@ function RegistrationForm() {
                  <input
                     onChange={(e)=>setFile(e.target.files)}
                     id="contained-button-file"
-                    multiple
                     type="file"
                     style={marginBottom} />
                   <label htmlFor="contained-button-file">

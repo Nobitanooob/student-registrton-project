@@ -54,11 +54,13 @@ export default function PendingReg() {
   const columns = [
     { field: 'name', headerName: 'Name', width: 100 },
     { field: 'email', headerName: 'Email', width: 150 },
+    { field: 'rollno', headerName: 'Roll No', width: 120 },
+    { field: 'programme', headerName: 'Programme', width: 130 },
     { field: 'department', headerName: 'Department', width: 130},
-    { field: 'type', headerName: 'User Type', width: 130 },
-    { field: 'status', headerName: 'Verification Status',hide: true },
+    { field: 'date', headerName: 'Date', width: 130},
+    { field: 'status', headerName: 'Verification Status', hide: true},
     {
-      field: 'file', headerName: 'Form', width: 100,filterable: false,
+      field: 'file', headerName: 'Form', width: 90,filterable: false,
       renderCell: (params) => (
         <a target='_blank' href={params.value} rel="noopener noreferrer" >Form</a>
         // <Link to={params.value}>{params.value} </Link>
@@ -113,8 +115,10 @@ export default function PendingReg() {
       id: index,
       name: data.userId.name,
       email: data.userId.email,
+      date: data.updatedAt.slice(0,10),
       department: data.userId.department,
-      type: data.userId.type,
+      rollno: data.userId.rollno,
+      programme : data.userId.programme,
       file: data.file,
       display: data,
       status: data.isVerified
@@ -124,7 +128,7 @@ export default function PendingReg() {
 
   return (
     // <div>heloo</div>
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: '80vh', width: '100%' }}>
       <DataGrid
         columns={columns}
         rows={rows}

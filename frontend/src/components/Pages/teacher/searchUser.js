@@ -53,9 +53,11 @@ export default function SearchUser() {
   }
   
   const columns = [
-    { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'email', headerName: 'Email', width: 130 },
-    { field: 'department', headerName: 'Department', width: 130 },
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'email', headerName: 'Email', width: 180 },
+    { field: 'rollno', headerName: 'Roll No', width: 130 },
+    { field: 'programme', headerName: 'Programme', width: 130 },
+    { field: 'department', headerName: 'Department', width: 180 },
     { field: 'type', headerName: 'User Type', width: 130 },
     {
       field: 'forms', headerName: 'User Forms', width: 140,
@@ -70,6 +72,8 @@ export default function SearchUser() {
       id: index,
       name: data.name,
       email: data.email,
+      rollno: data.rollno,
+      programme : data.programme,
       department: data.department,
       type: data.type,
       forms : data.forms
@@ -79,7 +83,7 @@ export default function SearchUser() {
 
   return (
     // <div>heloo</div>
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: '70vh', width: '100%' }}>
       <div style={{ display: 'flex' }}>
        <InputLabel id="select">Filter By:</InputLabel>
         <Select labelId="label"

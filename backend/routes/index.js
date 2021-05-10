@@ -5,7 +5,7 @@ const User = require('../models/User');
 const router = express.Router();
 const {OAuth2Client} =require('google-auth-library');
 
-const client=new OAuth2Client("13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com");
+const client= new OAuth2Client("13936057190-g0sbfcp0nlbk3lqgc551mnija76vsvou.apps.googleusercontent.com");
 
 router.use('/create-student', require('./createStudents'));
 
@@ -79,39 +79,6 @@ router.post('/googleLogin',(req,res)=>{
                 type: null
             });
         }
-    //    .exec((err,user)=>{
-        //     if(err){
-        //         return res.status(400).json({
-        //             error:"Something went wrong.."
-        //         })
-        //     }else{
-        //         if(user){
-        //             const {_id,name,email}=user;
-        //             res.json({
-        //                 message: 'user found!!',
-        //                 user:{_id,name,email}
-        //             })
-        //         }else{
-        //             //password feld not set
-        //             let password='';
-        //             let newUser=new User({name,email,password});
-        //             newUser.save((err,data)=>{
-        //                 if(err){
-        //                     return res.status(400).json({
-        //                         error:"Something went wrong.."
-        //                     })
-        //                 };
-        //                 const token={_id:data._id};
-        //                 const {_id,name,email}=user;
-        //                 res.json({
-        //                     token,
-        //                     message: 'user found!!',
-        //                     user:{_id,name,email}
-        //                 })
-        //             })
-        //         }
-        //     }
-        // })
     })
 });
 
