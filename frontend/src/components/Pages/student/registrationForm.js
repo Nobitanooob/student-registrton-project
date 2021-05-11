@@ -90,7 +90,7 @@ function RegistrationForm() {
  const paperStyle={
     padding:20,
     height:'auto',
-    width: '60vw',
+    width: '45vw',
     margin:'20px auto'
   };
   const handleChange = (event) => {
@@ -140,7 +140,7 @@ function RegistrationForm() {
                  name="programme"
                   placeholder="programme" 
                   fullWidth 
-                  label={user && user.programme.toUpperCase()}
+                  label={user && user.programme}
                   disabled 
                   error={p.errors.programme&&p.touched.programme}
                   helperText={<ErrorMessage   name="programme" />}
