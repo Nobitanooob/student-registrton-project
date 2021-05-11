@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DescriptionIcon from '@material-ui/icons/Description';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     typography: {

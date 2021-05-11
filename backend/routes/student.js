@@ -6,6 +6,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const FILE_PATH = path.join(__dirname, '..', '/uploads/reg');
+const verificationMailer = require('../mailers/verification_mail');
 
 router.route('/status').post(async (req, res) => {
     try {
@@ -13,6 +14,7 @@ router.route('/status').post(async (req, res) => {
         console.log(form); 
         form.isVerified = req.query.value;
         form.save();
+        verificationMailer.formValidation(form); 
         return res.json({
             message: `form status succcessfully updated to : ${req.query.value} !!`
         });
@@ -45,6 +47,7 @@ router.route('/uploadForm/:id').post(async (req, res) => {
         user.forms.push(newForm.id);
         user.save();
         console.log('user', user);
+        verificationMailer.newForm(newForm);
         return res.json({
             message: 'Form submitted Successfully!!',
             isSubmit: true,

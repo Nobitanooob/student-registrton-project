@@ -114,7 +114,7 @@ const Status = () => {
                             {form.createdAt.substr(0,10)}
                           </Grid>
                           <Grid item xs={2} sm>
-                          {<a href={form.file} target="_blank">Form</a>}
+                          {<a href={form.file} target="_blank" rel="noreferrer">Form</a>}
                         </Grid>
                         <Grid item xs={1} sm>
                         <Typography variant="body2" >
