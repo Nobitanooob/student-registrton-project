@@ -37,8 +37,8 @@ const About = () => {
   return (
     <>
     <div className={classes.root}>
-      <Grid>
-        <Paper elevation={10}style={{padding:"0 2rem 2rem 0"}}>
+      <Grid style={{width:"45vw"}}>
+        <Paper elevation={10} style={{padding:"0 2rem 2rem 0"}}>
             <Grid item style={{display:"flex",justifyContent:"center",padding:"1rem"}} >
             <Avatar alt="Profile Photo" src="https://source.unsplash.com/random" style={{height:'100px',width:'100px' }} />
             </Grid>
@@ -48,7 +48,7 @@ const About = () => {
                             Name :
                   </Typography>
               </Grid>
-              <Grid item xs={8} >
+              <Grid item xs={8}  >
               <form noValidate autoComplete="off">
                 <TextField
                 as="input"
