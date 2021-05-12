@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid,Paper} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
 import "../../App.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    display:"flex",
+    justifyContent:"center"
   },
   input:{
     padding:0
@@ -37,89 +37,65 @@ const About = () => {
   return (
     <>
     <div className={classes.root}>
-      <Grid style={{width:"45vw"}}>
-        <Paper elevation={10} style={{padding:"0 2rem 2rem 0"}}>
+      <Grid style={{width:"40vw"}}>
+        <Paper elevation={10} style={{padding:"0 0 2rem 0"}}>
             <Grid item style={{display:"flex",justifyContent:"center",padding:"1rem"}} >
             <Avatar alt="Profile Photo" src="https://source.unsplash.com/random" style={{height:'100px',width:'100px' }} />
             </Grid>
             <Grid container xs={12} style={{marginBottom:"20px"}}>
-              <Grid item xs={4} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                <Typography variant="body2" >
+              <Grid item xs={6} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                  <h3 >
                             Name :
-                  </Typography>
+                  </h3>
               </Grid>
-              <Grid item xs={8}  >
-              <form noValidate autoComplete="off">
-                <TextField
-                as="input"
-                id="outlined-read-only-input"
-                fullWidth 
-                variant="outlined" 
-                value={user.name}
-                  InputProps={{
-                    readOnly: true,
-                  }} /> 
-              </form>
+              <Grid item xs={6} style={{textTransform:"capitalize"}}>
+              {user.name}
+              </Grid>
+            </Grid>
+            {
+              user.type==="student"?
+              (
+                <Grid container xs={12} style={{marginBottom:"20px"}}>
+                <Grid item xs={6} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                  <h3>
+                              RollNo :
+                    </h3>
+                </Grid>
+                <Grid item xs={6} >
+                {user.rollno}
+                </Grid>
+              </Grid>
+              ):null
+            }
+            
+            <Grid container xs={12} style={{marginBottom:"20px"}}>
+              <Grid item xs={6} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <h3>
+                            Email:
+                  </h3>
+              </Grid>
+              <Grid item xs={6} >
+              {user.email}
               </Grid>
             </Grid>
             <Grid container xs={12} style={{marginBottom:"20px"}}>
-              <Grid item xs={4} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                <Typography variant="body2" >
-                            Email :
-                  </Typography>
-              </Grid>
-              <Grid item xs={8} >
-              <form noValidate autoComplete="off">
-                <TextField
-                as="input"
-                id="outlined-read-only-input"
-                fullWidth 
-                variant="outlined" 
-                value={user.email}
-                  InputProps={{
-                    readOnly: true,
-                  }} /> 
-              </form>
-              </Grid>
-            </Grid>
-            <Grid container xs={12} style={{marginBottom:"20px"}}>
-              <Grid item xs={4} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                <Typography variant="body2" >
+              <Grid item xs={6} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                 <h3 >
                         Program :
-                  </Typography>
+                  </h3>
               </Grid>
-              <Grid item xs={8} >
-              <form noValidate autoComplete="off">
-                <TextField
-                as="input"
-                id="outlined-read-only-input"
-                fullWidth 
-                variant="outlined" 
-                value="Btech"
-                  InputProps={{
-                    readOnly: true,
-                  }} /> 
-              </form>
+              <Grid item xs={6} >
+              {user.programme}
               </Grid>
             </Grid>
             <Grid container xs={12} style={{marginBottom:"20px"}}>
-              <Grid item xs={4} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                <Typography variant="body2" >
-                      Department :
-                  </Typography>
+              <Grid item xs={6} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+              <h3>
+                            Department:
+                  </h3>
               </Grid>
-              <Grid item xs={8} >
-              <form noValidate autoComplete="off">
-                <TextField
-                as="input"
-                id="outlined-read-only-input"
-                fullWidth 
-                variant="outlined" 
-                value={user.department}
-                  InputProps={{
-                    readOnly: true,
-                  }} /> 
-              </form>
+              <Grid item xs={6} >
+              {user.department}
               </Grid>
             </Grid>
          </Paper>
