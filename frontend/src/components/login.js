@@ -16,7 +16,6 @@ import { makeStyles } from '@material-ui/core/styles';
  import * as Yup from 'yup';
 import axios from 'axios';
 import Notification from './toasts';
-
 function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
@@ -36,8 +35,7 @@ function Copyright() {
       backgroundImage: 'url(https://www.collegesearch.in/upload/institute/images/large/120928033013_xx.png)',
       opacity: 0.8,
       backgroundRepeat: 'no-repeat',
-      backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },

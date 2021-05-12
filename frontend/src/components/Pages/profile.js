@@ -40,7 +40,15 @@ const About = () => {
       <Grid style={{width:"40vw"}}>
         <Paper elevation={10} style={{padding:"0 0 2rem 0"}}>
             <Grid item style={{display:"flex",justifyContent:"center",padding:"1rem"}} >
-            <Avatar alt="Profile Photo" src="https://source.unsplash.com/random" style={{height:'100px',width:'100px' }} />
+            <Avatar
+              style={{
+                height:'100px',
+                width:'100px',
+                backgroundColor: '#3f51b5',
+                textTransform: "uppercase"
+              }}>
+              {user.name && user.name.charAt(0)}
+              </Avatar>
             </Grid>
             <Grid container xs={12} style={{marginBottom:"20px"}}>
               <Grid item xs={6} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
