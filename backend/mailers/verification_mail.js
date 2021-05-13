@@ -6,7 +6,7 @@ exports.formValidation = (form) => {
     // pass data as object 
     let htmlString = nodemailer.renderTemplate({form :  form}, '/formvalidation.ejs');
     nodemailer.transporter.sendMail({
-        from: 'student4898@gmail.com',
+        from:  process.env.EMAIL_ID,
         to: form.email,
         subject: 'Registration Form Status',
         html: htmlString

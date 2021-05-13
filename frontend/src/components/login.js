@@ -32,8 +32,7 @@ function Copyright() {
       height: '100vh',
     },
     image: {
-      backgroundImage: 'url(https://www.collegesearch.in/upload/institute/images/large/120928033013_xx.png)',
-      opacity: 0.8,
+      backgroundImage: 'url(https://lh3.googleusercontent.com/pw/ACtC-3dQKDI0_hBE4bOr45K7m0Q4zD9kQv4DAGxEFzto4cWi77ufMwsZyR3QgAuDVeGh3ReHmzwfX72uqVO4I28QW_ilYpKGYWY_UfADVGJn4aT9r5Bn9X7gpUBu7X4r7vKfXkJ9KCWN_Zxzb5J9Hoqg7ubj=w758-h568-no?authuser=0)',
       backgroundRepeat: 'no-repeat',
       backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
       backgroundSize: 'cover',
